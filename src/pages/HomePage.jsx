@@ -1,13 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import './HomePage.css';
+
+import WordRowComponent from "../components/WordRowComponent";
 
 function HomePage() {
     const [row, setRow] = useState(0);
     const [searchedWord, setSearchedWord] = useState('');
+    const cellsRef = useRef({})
 
     const getRAEword = async () => {
-        /* Busca en la API de la RAE una palabra de 5 caracteres. */
+        /* 
+        Busca en la API de la RAE una palabra de 5 caracteres. 
+        */
         let fecthedWord = await axios.get('https://rae-api.com/api/random');
         while (fecthedWord.data.data.word.length !== 5) {
             fecthedWord = await axios.get('https://rae-api.com/api/random');
@@ -15,8 +20,19 @@ function HomePage() {
         setSearchedWord(fecthedWord.data.data.word)
     }
 
+    /* 
+    Añade la referencia a la celda correspondiente 
+    */
+    const addToReds = (element, key) => {
+        if (element) {
+            cellsRef.current[key] = element
+        }
+    }
+
     const newGame = () => {
-        /* Esta función reinciará el juego cuando sepa bien cómo ahcerlo */
+        /* 
+        Esta función reinciará el juego cuando sepa bien cómo ahcerlo 
+        */
         console.log('El botón debería reiniciar el juego')
         getRAEword()
     }
@@ -26,7 +42,8 @@ function HomePage() {
         getRAEword()
     }, [])
 
-    console.log('searchedWord is now: ' + searchedWord)
+    console.log('searchedWord is now: ' + searchedWord);
+    console.log(cellsRef)
 
     return (
         <>
@@ -41,59 +58,12 @@ function HomePage() {
 
                         {/* Palabras */}
                         <div className="words_container">
-                            {/* Primera Palabra */}
-                            <div className="word">
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                            </div>
-
-                            {/* Segunda Palabra */}
-                            <div className="word">
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                            </div>
-
-                            {/* Tercera Palabra */}
-                            <div className="word">
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                            </div>
-
-                            {/* Cuarta Palabra */}
-                            <div className="word">
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                            </div>
-
-                            {/* Quinta Palabra */}
-                            <div className="word">
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                            </div>
-
-                            {/* Sexta Palabra */}
-                            <div className="word">
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                                <div className="letter"></div>
-                            </div>
+                            <WordRowComponent row='0' addToReds={addToReds} />
+                            <WordRowComponent row='1' addToReds={addToReds} />
+                            <WordRowComponent row='2' addToReds={addToReds} />
+                            <WordRowComponent row='3' addToReds={addToReds} />
+                            <WordRowComponent row='4' addToReds={addToReds} />
+                            <WordRowComponent row='5' addToReds={addToReds} />
                         </div>
 
                         {/* Teclado */}

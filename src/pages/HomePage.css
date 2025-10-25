@@ -103,3 +103,6 @@
     border: none;
     color: var(--white-letter-color);
 }
+.current_cell{
+    border-color: var(--current-cell-color);
+}
