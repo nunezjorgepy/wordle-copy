@@ -1,7 +1,33 @@
-import { useState } from "react"
+import { useState, useEffect } from "react";
+import axios from "axios";
 import './HomePage.css';
 
 function HomePage() {
+    const [row, setRow] = useState(0);
+    const [searchedWord, setSearchedWord] = useState('');
+
+    const getRAEword = async () => {
+        /* Busca en la API de la RAE una palabra de 5 caracteres. */
+        let fecthedWord = await axios.get('https://rae-api.com/api/random');
+        while (fecthedWord.data.data.word.length !== 5) {
+            fecthedWord = await axios.get('https://rae-api.com/api/random');
+        }
+        setSearchedWord(fecthedWord.data.data.word)
+    }
+
+    const newGame = () => {
+        /* Esta función reinciará el juego cuando sepa bien cómo ahcerlo */
+        console.log('El botón debería reiniciar el juego')
+        getRAEword()
+    }
+
+    useEffect(() => {
+        // Busca una palabra SOLAMENTE en el primer renderizado
+        getRAEword()
+    }, [])
+
+    console.log('searchedWord is now: ' + searchedWord)
+
     return (
         <>
             <main>
@@ -11,7 +37,7 @@ function HomePage() {
                         <h1 className="game_title">LA PALABRA DEL DÍA</h1>
 
                         {/* Botón de Nueva Palabra */}
-                        <button className="new_game_btn">Nueva Palabra</button>
+                        <button className="new_game_btn" onClick={() => newGame()}>Nueva Palabra</button>
 
                         {/* Palabras */}
                         <div className="words_container">
