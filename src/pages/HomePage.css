@@ -1,0 +1,105 @@
+
+.section_game, .game_flex, .letters_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.game_flex{
+    width: 100%;
+}
+
+/* Título */
+.game_title{
+    display: flex;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    height: var(--word-cell-width);
+}
+
+/* Botón de Nuevo Juego */
+.new_game_btn{
+    background-color: var(--right-place-color);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 27px;
+    color: var(--white-letter-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--bg-color-transition);
+}
+.new_game_btn:hover{
+    background-color: var(--hover-new-btn);
+}
+
+/* Palabras Elegidas */
+.words_container{
+    display: flex;
+    flex-direction: column;
+    gap: var(--letter-gap);
+    margin: 20px auto;
+    max-width: 280px;
+    width: 70%;
+}
+.word{
+    display: flex;
+    gap: var(--letter-gap);
+}
+.letter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--word-cell-width);
+    height: var(--word-cell-width);
+    border: 2px solid var(--unchosen-letter-color);
+    border-radius: 5px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    cursor: default;
+    text-transform: uppercase;
+}
+
+/* Teclado */
+.letters_container{
+    display: flex;
+    justify-content: space-between;
+    gap: 7px;
+    max-width: 32rem;
+    width: 100%;
+}
+.keyboard_row{
+    display: flex;
+    justify-content: space-around;
+    gap: 4px;
+}
+.keyboard_letter{
+    background-color: var(--unchosen-letter-color);
+    border: none;
+    border-radius: 5px;
+    width: 47px;
+    height: 56px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: var(--bg-color-transition);
+}
+.keyboard_letter:hover{
+    background-color: var(--hover-letter-color);
+}
+
+
+/* Clases utilitarias */
+.right_place{
+    background-color: var(--right-place-color);
+}
+.right_letter{
+    background-color: var(--right-letter-color);
+}
+.wrong_letter{
+    background-color: var(--wrong-letter-color);
+}
+.chosen_letter{
+    border: none;
+    color: var(--white-letter-color);
+}
