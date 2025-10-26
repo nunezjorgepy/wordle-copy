@@ -35,7 +35,7 @@ function HomePage() {
     /* 
     Event Listener for key down
     */
-    const handleKeyPress = useCallback((e) => {
+    const handleKeyDown = useCallback((e) => {
         if (!playing) return; // Si no estoy jugando, no hace nada.
 
         const letra = e.key.toUpperCase();
@@ -50,9 +50,7 @@ function HomePage() {
             currentCell.classList.remove('current_cell');
 
             /* Moving to next cell */
-            /* TODO: I need to make sure that if I'm at the last cell, I don't go to the next row until I press enter*/
-            setRow((prevRow) => (cell !== 4 ? prevRow : prevRow + 1))
-            setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : 0));
+            setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : prevCell));
         }
 
         if (e.key === 'Backspace') {
@@ -62,34 +60,52 @@ function HomePage() {
                 return newWord
             })
 
+            /* Elige la celda actual y elimina la clase */
             const currentCell = cellsRef.current[`${row}${cell}`];
             currentCell.classList.remove('current_cell');
 
             /* Foco en la celda anterior */
-            setCell((prevCell) => (prevCell !== 0 ? prevCell - 1 : 0))
+            setCell((prevCell) => {
+                /* Ok, so this one was a perra.
+                    - If I wrote 5 characters, it deletes the last one, the letter from the cell, but it remains in the last cell;
+                    - If it's on the first cell (index = 0), it remains there and nothing else
+                    - Else, sets the cell index to the previous one.
+                */
+                if (prevCell === 4 && chosenWord.length === 5){
+                    currentCell.innerHTML = '';
+                    return 4
+                } else if (prevCell === 0) {
+                    return 0
+                } else{
+                    return prevCell - 1
+                }
+            })
         }
 
         if (e.key === 'Enter') {
+            // TODO: when I press Enter, it should check if chosenWord has 5 characters, if it exists and all the winning or not winning functions.
             console.log('You pressed Enter!!')
-            setChosenWord('');
         }
 
     })
 
     const handleKeyUp = (e) => {
-        const currentCell = cellsRef.current[`${row}${cell}`];
+        /* Updates the useStates, deletes the letters on the cell and... */
+        let currentCell = cellsRef.current[`${row}${cell}`];
 
         /* Add the class to the next cell */
         if (chosenWord.length !== 5) {
             currentCell.classList.add('current_cell');
         }
 
+        /* Delete the letter from the cell */
         if (e.key === 'Backspace'){
             currentCell.innerHTML = '';
-        }
+        } 
 
-        console.log('chosenWord is now: ' , chosenWord);
-        console.log('row: ' , row, 'cell: ', cell);
+        /* console.log('chosenWord is now: ' , chosenWord);
+        console.log('row: ' , row, 'cell: ', cell); */
+        console.log(chosenWord)
     }
 
     useEffect(() => {
@@ -98,9 +114,9 @@ function HomePage() {
     }, [])
 
     useEffect(() => {
-        document.addEventListener('keydown', handleKeyPress);
-        return () => document.removeEventListener('keydown', handleKeyPress)
-    }, [handleKeyPress])
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown)
+    }, [handleKeyDown])
 
     useEffect(() => {
         document.addEventListener('keyup', handleKeyUp);
