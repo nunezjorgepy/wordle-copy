@@ -50,28 +50,44 @@ function HomePage() {
             currentCell.classList.remove('current_cell');
 
             /* Moving to next cell */
+            /* TODO: I need to make sure that if I'm at the last cell, I don't go to the next row until I press enter*/
             setRow((prevRow) => (cell !== 4 ? prevRow : prevRow + 1))
             setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : 0));
         }
 
         if (e.key === 'Backspace') {
+            /* Eliminar la última letra de chosenWord */
             setChosenWord((prevWord) => {
                 const newWord = prevWord.length !== 0 ? prevWord.slice(0, -1) : prevWord
                 return newWord
             })
+
+            const currentCell = cellsRef.current[`${row}${cell}`];
+            currentCell.classList.remove('current_cell');
+
+            /* Foco en la celda anterior */
+            setCell((prevCell) => (prevCell !== 0 ? prevCell - 1 : 0))
         }
 
         if (e.key === 'Enter') {
             console.log('You pressed Enter!!')
+            setChosenWord('');
         }
 
     })
 
     const handleKeyUp = (e) => {
+        const currentCell = cellsRef.current[`${row}${cell}`];
+
+        /* Add the class to the next cell */
         if (chosenWord.length !== 5) {
-            const currentCell = cellsRef.current[`${row}${cell}`];
             currentCell.classList.add('current_cell');
         }
+
+        if (e.key === 'Backspace'){
+            currentCell.innerHTML = '';
+        }
+
         console.log('chosenWord is now: ' , chosenWord);
         console.log('row: ' , row, 'cell: ', cell);
     }
