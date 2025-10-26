@@ -41,7 +41,8 @@ function HomePage() {
         const letra = e.key.toUpperCase();
 
         if ('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(letra) && chosenWord.length !== 5) {
-            setChosenWord((prevWord) => prevWord + letra)
+            /* Setting chosenWord */
+            setChosenWord((prevWord) => prevWord + letra);
 
             /* Writing the lleter and removing current_cell class from current Cell */
             const currentCell = cellsRef.current[`${row}${cell}`];
@@ -67,6 +68,10 @@ function HomePage() {
     })
 
     const handleKeyUp = (e) => {
+        if (chosenWord.length !== 5) {
+            const currentCell = cellsRef.current[`${row}${cell}`];
+            currentCell.classList.add('current_cell');
+        }
         console.log('chosenWord is now: ' , chosenWord);
         console.log('row: ' , row, 'cell: ', cell);
     }
