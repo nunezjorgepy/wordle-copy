@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import './HomePage.css';
 
@@ -6,8 +6,11 @@ import WordRowComponent from "../components/WordRowComponent";
 
 function HomePage() {
     const [row, setRow] = useState(0);
+    const [cell, setCell] = useState(0);
+    const [chosenWord, setChosenWord] = useState('');
     const [searchedWord, setSearchedWord] = useState('');
-    const cellsRef = useRef({})
+    const cellsRef = useRef({});
+    const [playing, setPlaying] = useState(true);
 
     const getRAEword = async () => {
         /* 
@@ -29,12 +32,43 @@ function HomePage() {
         }
     }
 
-    const newGame = () => {
-        /* 
-        Esta función reinciará el juego cuando sepa bien cómo ahcerlo 
-        */
-        console.log('El botón debería reiniciar el juego')
-        getRAEword()
+    /* 
+    Event Listener for key down
+    */
+    const handleKeyPress = useCallback((e) => {
+        if (!playing) return; // Si no estoy jugando, no hace nada.
+
+        const letra = e.key.toUpperCase();
+
+        if ('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(letra) && chosenWord.length !== 5) {
+            setChosenWord((prevWord) => prevWord + letra)
+
+            /* Writing the lleter and removing current_cell class from current Cell */
+            const currentCell = cellsRef.current[`${row}${cell}`];
+            currentCell.innerHTML = letra;
+            currentCell.classList.remove('current_cell');
+
+            /* Moving to next cell */
+            setRow((prevRow) => (cell !== 4 ? prevRow : prevRow + 1))
+            setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : 0));
+        }
+
+        if (e.key === 'Backspace') {
+            setChosenWord((prevWord) => {
+                const newWord = prevWord.length !== 0 ? prevWord.slice(0, -1) : prevWord
+                return newWord
+            })
+        }
+
+        if (e.key === 'Enter') {
+            console.log('You pressed Enter!!')
+        }
+
+    })
+
+    const handleKeyUp = (e) => {
+        console.log('chosenWord is now: ' , chosenWord);
+        console.log('row: ' , row, 'cell: ', cell);
     }
 
     useEffect(() => {
@@ -42,8 +76,16 @@ function HomePage() {
         getRAEword()
     }, [])
 
-    console.log('searchedWord is now: ' + searchedWord);
-    console.log(cellsRef)
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyPress);
+        return () => document.removeEventListener('keydown', handleKeyPress)
+    }, [handleKeyPress])
+
+    useEffect(() => {
+        document.addEventListener('keyup', handleKeyUp);
+        return () => document.removeEventListener('keyup', handleKeyUp)
+    }, [handleKeyUp])
+
 
     return (
         <>
