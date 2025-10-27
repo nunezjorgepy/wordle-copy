@@ -17,6 +17,16 @@ function HomePage() {
     const not_on_list = useRef(null);
     const newGemaBtn = useRef(null)
 
+
+    /* 
+    ==========================================================================
+    ==========================================================================
+    ==========================================================================
+    General Functions
+    ==========================================================================
+    ==========================================================================
+    ==========================================================================
+    */
     const getRAEword = async () => {
         /* 
         Busca en la API de la RAE una palabra de 5 caracteres. 
@@ -47,6 +57,29 @@ function HomePage() {
         }, 3000)
     }
 
+    /* Check Word */
+    const checkWord = async () => {
+        // If the word doesn't exist, it shows a message
+        try {
+            const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
+        } catch (error) {
+            showErrorMsg(not_on_list)
+            return false
+        }
+    }
+
+    /* Check Win */
+    const checkWon = () => {
+        // Verifies if the player guessed the right word
+        if (searchedWord === chosenWord) {
+            for (let i = 0; i < 5; i++){
+                cellsRef.current[`${row}${i}`].classList.add('right_place');
+                setPlaying(false);
+                setChosenWord('');
+            }
+        }
+    }
+
     /*
     New Game Funciton
     */
@@ -57,9 +90,18 @@ function HomePage() {
 
 
     /* 
+    ==========================================================================
+    ==========================================================================
+    ==========================================================================
+    Key press handlers
+    ==========================================================================
+    ==========================================================================
+    ==========================================================================
+    */
+    /* 
     Event Listener for key down
     */
-    const handleKeyDown = async (e) => {
+    const handleKeyDown = (e) => {
         if (!playing) return; // Si no estoy jugando, no hace nada.
 
         
@@ -108,27 +150,15 @@ function HomePage() {
 
         if (e.key === 'Enter') {
             // TODO: when I press Enter, it should check if chosenWord has 5 characters, if it exists and all the winning or not winning functions.
+            
             /* If the word doesn't have enough letters */
             if (chosenWord.length < 5){
                 showErrorMsg(incomplete_word)
-                return
+                return false
             }
+            checkWord();
+            checkWon();
 
-            /* If the word doesn't exist */
-            try {
-                const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
-            } catch (error) {
-                showErrorMsg(not_on_list)
-                return
-            }
-            
-            if (searchedWord === chosenWord) {
-                for (let i = 0; i < 5; i++){
-                    cellsRef.current[`${row}${i}`].classList.add('right_place');
-                    setPlaying(false);
-                    setChosenWord('');
-                }
-            }
         }
 
         /* DEBUG function: this function only lets me log searchedWord to know which one it is. It MUST be deleted after the app is completed. */
