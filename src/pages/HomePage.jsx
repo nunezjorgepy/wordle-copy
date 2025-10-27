@@ -15,6 +15,7 @@ function HomePage() {
     const cellsRef = useRef({});
     const incomplete_word = useRef(null);
     const not_on_list = useRef(null);
+    const newGemaBtn = useRef(null)
 
     const getRAEword = async () => {
         /* 
@@ -50,6 +51,7 @@ function HomePage() {
     New Game Funciton
     */
     const newGame = () => {
+        newGemaBtn.current.blur()
         getRAEword();
     }
 
@@ -179,7 +181,7 @@ function HomePage() {
                         <h1 className="game_title">LA PALABRA DEL DÍA</h1>
 
                         {/* Botón de Nueva Palabra */}
-                        <button className="new_game_btn" onClick={() => newGame()}>Nueva Palabra</button>
+                        <button className="new_game_btn" ref={newGemaBtn} onClick={() => newGame()}>Nueva Palabra</button>
 
                         {/* Palabras */}
                         <div className="words_container">
