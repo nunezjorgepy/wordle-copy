@@ -51,7 +51,7 @@ function HomePage() {
     /* 
     Event Listener for key down
     */
-    const handleKeyDown = (e) => {
+    const handleKeyDown = async (e) => {
         if (!playing) return; // Si no estoy jugando, no hace nada.
 
         
@@ -100,9 +100,21 @@ function HomePage() {
 
         if (e.key === 'Enter') {
             // TODO: when I press Enter, it should check if chosenWord has 5 characters, if it exists and all the winning or not winning functions.
+            /* If the word doesn't have enough letters */
             if (chosenWord.length < 5){
                 showErrorMsg(incomplete_word)
+                return
             }
+
+            /* If the word doesn't exist */
+            try {
+                const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
+                console.log(foundWord)
+            } catch (error) {
+                showErrorMsg(not_on_list)
+                return
+            }
+            console.log('Still here!')
         }
 
     }
@@ -123,7 +135,6 @@ function HomePage() {
 
         /* console.log('chosenWord is now: ' , chosenWord);
         console.log('row: ' , row, 'cell: ', cell); */
-        console.log(chosenWord)
     }
 
     useEffect(() => {
@@ -141,7 +152,7 @@ function HomePage() {
         }
     }, [handleKeyUp, handleKeyDown])
 
-    console.log('searchedWord is: ', searchedWord);
+    /* console.log('searchedWord is: ', searchedWord); */
 
     return (
         <>
