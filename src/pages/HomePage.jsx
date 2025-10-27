@@ -46,6 +46,12 @@ function HomePage() {
         }, 3000)
     }
 
+    /*
+    New Game Funciton
+    */
+    const newGame = () => {
+        getRAEword();
+    }
 
 
     /* 
@@ -109,17 +115,29 @@ function HomePage() {
             /* If the word doesn't exist */
             try {
                 const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
-                console.log(foundWord)
             } catch (error) {
                 showErrorMsg(not_on_list)
                 return
             }
-            console.log('Still here!')
+            
+            if (searchedWord === chosenWord) {
+                for (let i = 0; i < 5; i++){
+                    cellsRef.current[`${row}${i}`].classList.add('right_place');
+                    setPlaying(false);
+                    setChosenWord('');
+                }
+            }
         }
 
+        /* DEBUG function: this function only lets me log searchedWord to know which one it is. It MUST be deleted after the app is completed. */
+        if (e.key === ' ') {
+            console.log('searchedWord is: ', searchedWord);
+        }
     }
 
     const handleKeyUp = (e) => {
+        if (!playing) return false  // If I'm not playing, nothing happens
+        
         /* Updates the useStates, deletes the letters on the cell and... */
         let currentCell = cellsRef.current[`${row}${cell}`];
 
@@ -151,9 +169,7 @@ function HomePage() {
             document.removeEventListener('keydown', handleKeyDown)
         }
     }, [handleKeyUp, handleKeyDown])
-
-    /* console.log('searchedWord is: ', searchedWord); */
-
+    
     return (
         <>
             <main>

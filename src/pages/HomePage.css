@@ -71,6 +71,7 @@
     display: flex;
     justify-content: space-around;
     gap: 4px;
+    width: 95%;
 }
 .keyboard_letter{
     background-color: var(--unchosen-letter-color);
@@ -111,7 +112,7 @@
 
 @keyframes show_error_msg {
     0% {
-        top: -15%;
+        top: -74px;
     }
     25% {
         top: 5%;
@@ -127,12 +128,18 @@
 /* Clases utilitarias */
 .right_place{
     background-color: var(--right-place-color);
+    border: none;
+    color: var(--white-letter-color);
 }
 .right_letter{
     background-color: var(--right-letter-color);
+    border: none;
+    color: var(--white-letter-color);
 }
 .wrong_letter{
     background-color: var(--wrong-letter-color);
+    border: none;
+    color: var(--white-letter-color);
 }
 .chosen_letter{
     border: none;
