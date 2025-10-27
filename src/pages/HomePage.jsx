@@ -11,6 +11,8 @@ function HomePage() {
     const [searchedWord, setSearchedWord] = useState('');
     const cellsRef = useRef({});
     const [playing, setPlaying] = useState(true);
+    const incomplete_word = useRef(null);
+    const not_on_list = useRef(null);
 
     const getRAEword = async () => {
         /* 
@@ -196,6 +198,9 @@ function HomePage() {
                         </div>
                     </div>
                 </section>
+
+                <div ref={incomplete_word} className="error_msg incomplete_word">No hay suficientes letras</div>
+                <div ref={not_on_list} className="error_msg not_on_list">La palabra no está en la lista</div>
             </main>
         </>
     )

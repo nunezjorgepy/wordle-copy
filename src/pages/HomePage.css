@@ -88,6 +88,41 @@
     background-color: var(--hover-letter-color);
 }
 
+/* Error Messages */
+.error_msg{
+    position: absolute;
+    top: -15%;
+    left: 50%;
+    max-width: 420px;
+    height: 74px;
+    width: 100%;
+    transform: translateX(-50%);
+    padding: 24px 32px 24px 24px;
+    background-color: var(--white-letter-color);
+    border: 1px solid var(--error-msg-border);
+    border-radius: 10px;
+    box-shadow: 0 10px 15px -3px #0000001a,0 4px 6px -4px #0000001a;
+    text-align: center;
+    /* animation: show_error_msg 3s ease-in-out; */
+}
+.error_animation {
+    animation: show_error_msg 3s ease-in-out;
+}
+
+@keyframes show_error_msg {
+    0% {
+        top: -15%;
+    }
+    25% {
+        top: 5%;
+    }
+    75% {
+        top: 5%;
+    }
+    100% {
+        top: -15%;
+    }
+}
 
 /* Clases utilitarias */
 .right_place{

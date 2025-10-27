@@ -11,6 +11,7 @@
   --current-cell-color: #90caf9;
   --dark-letter-color: #000;
   --white-letter-color: #FFF;
+  --error-msg-border: #E5E5E5;
 
   /* Medidas */
   --word-cell-width: 50px;
