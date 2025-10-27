@@ -150,9 +150,10 @@ function HomePage() {
 
         if (e.key === 'Enter') {
             // TODO: when I press Enter, it should check if chosenWord has 5 characters, if it exists and all the winning or not winning functions.
-            
+
             /* If the word doesn't have enough letters */
             if (chosenWord.length < 5){
+                // If chosen word doesn't have enough letter, show error
                 showErrorMsg(incomplete_word)
                 return false
             }
