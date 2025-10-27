@@ -20,7 +20,7 @@ function HomePage() {
         while (fecthedWord.data.data.word.length !== 5) {
             fecthedWord = await axios.get('https://rae-api.com/api/random');
         }
-        setSearchedWord(fecthedWord.data.data.word)
+        setSearchedWord(fecthedWord.data.data.word.toUpperCase());
     }
 
     /* 
@@ -35,12 +35,12 @@ function HomePage() {
     /* 
     Event Listener for key down
     */
-    const handleKeyDown = useCallback((e) => {
+    const handleKeyDown = (e) => {
         if (!playing) return; // Si no estoy jugando, no hace nada.
 
-        const letra = e.key.toUpperCase();
-
-        if ('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(letra) && chosenWord.length !== 5) {
+        
+        if ('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(e.key.toUpperCase()) && chosenWord.length !== 5) {
+            const letra = e.key.toUpperCase();
             /* Setting chosenWord */
             setChosenWord((prevWord) => prevWord + letra);
 
@@ -87,7 +87,7 @@ function HomePage() {
             console.log('You pressed Enter!!')
         }
 
-    })
+    }
 
     const handleKeyUp = (e) => {
         /* Updates the useStates, deletes the letters on the cell and... */
@@ -115,14 +115,15 @@ function HomePage() {
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown)
-    }, [handleKeyDown])
-
-    useEffect(() => {
         document.addEventListener('keyup', handleKeyUp);
-        return () => document.removeEventListener('keyup', handleKeyUp)
-    }, [handleKeyUp])
 
+        return () => {
+            document.removeEventListener('keyup', handleKeyUp);
+            document.removeEventListener('keydown', handleKeyDown)
+        }
+    }, [handleKeyUp, handleKeyDown])
+
+    console.log('searchedWord is: ', searchedWord);
 
     return (
         <>
