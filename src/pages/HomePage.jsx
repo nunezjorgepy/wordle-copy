@@ -28,9 +28,7 @@ function HomePage() {
     ==========================================================================
     */
     const getRAEword = async () => {
-        /* 
-        Busca en la API de la RAE una palabra de 5 caracteres. 
-        */
+        /* Busca en la API de la RAE una palabra de 5 caracteres. */
         let fecthedWord = await axios.get('https://rae-api.com/api/random');
         while (fecthedWord.data.data.word.length !== 5) {
             fecthedWord = await axios.get('https://rae-api.com/api/random');
@@ -38,18 +36,14 @@ function HomePage() {
         setSearchedWord(fecthedWord.data.data.word.toUpperCase());
     }
 
-    /* 
-    Añade la referencia a la celda correspondiente 
-    */
+    /* Añade la referencia a la celda correspondiente */
     const addToReds = (element, key) => {
         if (element) {
             cellsRef.current[key] = element
         }
     }
 
-    /* 
-    Error message function
-    */
+    /* Error message function */
     const showErrorMsg = (ref) => {
         ref.current.classList.add('error_animation');
         setTimeout(() => {
@@ -80,9 +74,7 @@ function HomePage() {
         }
     }
 
-    /*
-    New Game Funciton
-    */
+    /* New Game Funciton */
     const newGame = () => {
         newGemaBtn.current.blur()
         getRAEword();
@@ -101,7 +93,7 @@ function HomePage() {
     /* 
     Event Listener for key down
     */
-    const handleKeyDown = (e) => {
+    const handleKeyDown = async (e) => {
         if (!playing) return; // Si no estoy jugando, no hace nada.
 
         
@@ -157,9 +149,25 @@ function HomePage() {
                 showErrorMsg(incomplete_word)
                 return false
             }
-            checkWord();
-            checkWon();
 
+            /* Check if word is in dictionary */
+            try {
+                const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
+            } catch (error) {
+                showErrorMsg(not_on_list)
+                return false
+            }
+
+            /* Check if the user won */
+            if (searchedWord === chosenWord) {
+                for (let i = 0; i < 5; i++){
+                    cellsRef.current[`${row}${i}`].classList.add('right_place');
+                    setPlaying(false);
+                    setChosenWord('');
+                }
+            }            
+
+            console.log('Here?')
         }
 
         /* DEBUG function: this function only lets me log searchedWord to know which one it is. It MUST be deleted after the app is completed. */
