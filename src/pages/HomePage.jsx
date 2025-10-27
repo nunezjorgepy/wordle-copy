@@ -5,12 +5,14 @@ import './HomePage.css';
 import WordRowComponent from "../components/WordRowComponent";
 
 function HomePage() {
+    /* useStates */
     const [row, setRow] = useState(0);
     const [cell, setCell] = useState(0);
     const [chosenWord, setChosenWord] = useState('');
     const [searchedWord, setSearchedWord] = useState('');
-    const cellsRef = useRef({});
     const [playing, setPlaying] = useState(true);
+    /* useRefs */
+    const cellsRef = useRef({});
     const incomplete_word = useRef(null);
     const not_on_list = useRef(null);
 
@@ -33,6 +35,18 @@ function HomePage() {
             cellsRef.current[key] = element
         }
     }
+
+    /* 
+    Error message function
+    */
+    const showErrorMsg = (ref) => {
+        ref.current.classList.add('error_animation');
+        setTimeout(() => {
+            ref.current.classList.remove('error_animation');
+        }, 3000)
+    }
+
+
 
     /* 
     Event Listener for key down
@@ -86,7 +100,9 @@ function HomePage() {
 
         if (e.key === 'Enter') {
             // TODO: when I press Enter, it should check if chosenWord has 5 characters, if it exists and all the winning or not winning functions.
-            console.log('You pressed Enter!!')
+            if (chosenWord.length < 5){
+                showErrorMsg(incomplete_word)
+            }
         }
 
     }
