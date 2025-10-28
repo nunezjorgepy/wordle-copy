@@ -109,6 +109,20 @@ function HomePage() {
         }
     }
 
+    const setCellAndRow = () => {
+        // Setea la fila y celda después de verificar la palabra.
+        setCell(0);
+        setRow(prevRow => {
+            if (prevRow !== 5){
+                return prevRow + 1;
+            } else {
+                console.log(`PErdiste. La palabra es: ${searchedWord}`);
+                setPlaying(false);
+                return 0
+            }
+        })
+        cellsRef.current[`${row}${cell}`].classList.add('current_letter');
+    }
     /* 
     ==========================================================================
     ==========================================================================
@@ -198,9 +212,11 @@ function HomePage() {
 
             const LETTERCOUNT = countingLEtters();
             console.log(LETTERCOUNT);
-
+            
+            setChosenWord('');              // If not reset, the game doesn't continue.
             checkRightPlace(LETTERCOUNT);   // Check if it is in the right place
             checkRightetter(LETTERCOUNT);   // Check if it is in the word. If not, pain it gray
+            setCellAndRow();                // Set new Row and Cell
 
             console.log(LETTERCOUNT);
         }
