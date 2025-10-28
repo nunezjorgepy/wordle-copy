@@ -116,7 +116,7 @@ function HomePage() {
             if (prevRow !== 5){
                 return prevRow + 1;
             } else {
-                console.log(`PErdiste. La palabra es: ${searchedWord}`);
+                console.log(`Perdiste. La palabra es: ${searchedWord}`);
                 setPlaying(false);
                 return 0
             }
@@ -211,14 +211,12 @@ function HomePage() {
             }
 
             const LETTERCOUNT = countingLEtters();
-            console.log(LETTERCOUNT);
             
             setChosenWord('');              // If not reset, the game doesn't continue.
             checkRightPlace(LETTERCOUNT);   // Check if it is in the right place
             checkRightetter(LETTERCOUNT);   // Check if it is in the word. If not, pain it gray
             setCellAndRow();                // Set new Row and Cell
 
-            console.log(LETTERCOUNT);
         }
 
         /* DEBUG function: this function only lets me log searchedWord to know which one it is. It MUST be deleted after the app is completed. */
@@ -243,8 +241,6 @@ function HomePage() {
             currentCell.innerHTML = '';
         } 
 
-        /* console.log('chosenWord is now: ' , chosenWord);
-        console.log('row: ' , row, 'cell: ', cell); */
     }
 
     useEffect(() => {
