@@ -75,6 +75,29 @@ function HomePage() {
         return LETTEROBJECT
     }
 
+    /* Check Right Letter */
+    const checkRightetter = (LETTERCOUNT) => {
+        /* 
+        Verifies if the letter are in th word and available to use
+        */
+        for (let i = 0; i < 5; i++){
+            // Create the variables that are either true or false
+            const rightPlace = cellsRef.current[`${row}${i}`].classList.contains('right_place');
+            const isInWord = searchedWord.includes(chosenWord[i]);
+            const available = LETTERCOUNT[chosenWord[i]];
+
+            // Verifies if conditions are met
+            if (rightPlace){
+                continue;
+            } else if (isInWord && available) {
+                cellsRef.current[`${row}${i}`].classList.add('right_letter');
+                LETTERCOUNT[chosenWord[i]]--;
+            } else {
+                cellsRef.current[`${row}${i}`].classList.add('wrong_letter');
+            }
+        }
+    }
+
     /* 
     ==========================================================================
     ==========================================================================
@@ -174,6 +197,7 @@ function HomePage() {
                     LETTERCOUNT[chosenWord[i]]--;
                 }
             }
+            checkRightetter(LETTERCOUNT);
 
             console.log(LETTERCOUNT);
         }
