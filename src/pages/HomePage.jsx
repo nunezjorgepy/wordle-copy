@@ -51,35 +51,11 @@ function HomePage() {
         }, 3000)
     }
 
-    /* Check Word */
-    const checkWord = async () => {
-        // If the word doesn't exist, it shows a message
-        try {
-            const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
-        } catch (error) {
-            showErrorMsg(not_on_list)
-            return false
-        }
-    }
-
-    /* Check Win */
-    const checkWon = () => {
-        // Verifies if the player guessed the right word
-        if (searchedWord === chosenWord) {
-            for (let i = 0; i < 5; i++){
-                cellsRef.current[`${row}${i}`].classList.add('right_place');
-                setPlaying(false);
-                setChosenWord('');
-            }
-        }
-    }
-
     /* New Game Funciton */
     const newGame = () => {
         newGemaBtn.current.blur()
         getRAEword();
     }
-
 
     /* 
     ==========================================================================
@@ -165,8 +141,18 @@ function HomePage() {
                     setPlaying(false);
                     setChosenWord('');
                 }
-            }            
+                return false
+            }
 
+            /* Creo que este es un buen lugar para crear la variable de letras disponibles/usadas. Antes, no se necesita, por lo que es una pérdida de memoria crearla antes. */
+
+            /* Check if letter is in the right place */
+            for (let i = 0; i < searchedWord.length; i++){
+                if (searchedWord[i] === chosenWord[i]){
+                    let currentCell = cellsRef.current[`${row}${i}`]
+                    currentCell.classList.add('right_place')
+                }
+            }
             console.log('Here?')
         }
 
