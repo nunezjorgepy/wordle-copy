@@ -85,7 +85,12 @@
     text-transform: uppercase;
     transition: var(--bg-color-transition);
 }
-.keyboard_letter:hover{
+.keyboar_hover{
+    /* Solo esta para sacar el efecto hover de una letra elegida */
+    /* La clase quedó mal escrita. Debería ser keyobaorD_hover, pero no tengo ganas de modificar todo el HTML */
+    background-color: var(--unchosen-letter-color);
+}
+.keyboar_hover:hover{
     background-color: var(--hover-letter-color);
 }
 

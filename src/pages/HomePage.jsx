@@ -13,6 +13,7 @@ function HomePage() {
     const [playing, setPlaying] = useState(true);
     /* useRefs */
     const cellsRef = useRef({});
+    const keyBoardRef = useRef({});
     const incomplete_word = useRef(null);
     const not_on_list = useRef(null);
     const newGemaBtn = useRef(null)
@@ -29,17 +30,25 @@ function HomePage() {
     */
     const getRAEword = async () => {
         /* Busca en la API de la RAE una palabra de 5 caracteres. */
-        let fecthedWord = await axios.get('https://rae-api.com/api/random');
+        /* TODO: para evitar perder tiempo mientras la API busca una palabra, que para colmo puede contener tildes, momentaneamente hago que la palabra sea siempre SECAR. Es importante modificar esto luego. */
+        /* let fecthedWord = await axios.get('https://rae-api.com/api/random');
         while (fecthedWord.data.data.word.length !== 5) {
             fecthedWord = await axios.get('https://rae-api.com/api/random');
         }
-        setSearchedWord(fecthedWord.data.data.word.toUpperCase());
+        setSearchedWord(fecthedWord.data.data.word.toUpperCase()); */
+        setSearchedWord('SECAR');
     }
 
     /* Añade la referencia a la celda correspondiente */
     const addToReds = (element, key) => {
         if (element) {
             cellsRef.current[key] = element
+        }
+    }
+
+    const addToKeyRefs = (element, letter) => {
+        if (element){
+            keyBoardRef.current[letter] = element;
         }
     }
 
@@ -75,21 +84,23 @@ function HomePage() {
         return LETTEROBJECT
     }
 
-    /* Check Right Place */
     const checkRightPlace = (LETTERCOUNT) => {
+        /*
+        Verifica, por cada letra, si está en el lugar correcto
+        */
         for (let i = 0; i < searchedWord.length; i++){
             if (searchedWord[i] === chosenWord[i]){
                 let currentCell = cellsRef.current[`${row}${i}`];
                 currentCell.classList.add('right_place');
                 LETTERCOUNT[chosenWord[i]]--;
+                addClassToKeyBoard('right_place', chosenWord[i])
             }
         }
     }
 
-    /* Check Right Letter */
     const checkRightetter = (LETTERCOUNT) => {
         /* 
-        Verifies if the letter are in th word and available to use
+        Verifies if the letter are in the word and available to use
         */
         for (let i = 0; i < 5; i++){
             // Create the variables that are either true or false
@@ -103,8 +114,10 @@ function HomePage() {
             } else if (isInWord && available) {
                 cellsRef.current[`${row}${i}`].classList.add('right_letter');
                 LETTERCOUNT[chosenWord[i]]--;
+                addClassToKeyBoard('right_letter', chosenWord[i]);
             } else {
                 cellsRef.current[`${row}${i}`].classList.add('wrong_letter');
+                addClassToKeyBoard('wrong_letter', chosenWord[i]);
             }
         }
     }
@@ -122,6 +135,26 @@ function HomePage() {
             }
         })
         cellsRef.current[`${row}${cell}`].classList.add('current_letter');
+    }
+
+    const addClassToKeyBoard = (colorClass, letter) => {
+        /* Agrega la clase correspondiente a la letras del teclado. */
+        const uncoloredLetter = keyBoardRef.current[letter];
+        const hasRightPlace = uncoloredLetter.classList.contains('right_place');
+        const hasRightLetter = uncoloredLetter.classList.contains('right_letter');
+
+        if (colorClass === 'right_place'){
+            uncoloredLetter.classList.add(colorClass);
+            uncoloredLetter.classList.remove('right_letter');
+        } else if (colorClass === 'right_letter' && !hasRightPlace){
+            uncoloredLetter.classList.add(colorClass);
+            uncoloredLetter.classList.remove('wrong_letter');
+        } else if (colorClass === 'wrong_letter' && !hasRightPlace && !hasRightLetter){
+            uncoloredLetter.classList.add(colorClass);
+        }
+
+        /* Saca la clase que el da el hover a las letras. */
+        uncoloredLetter.classList.remove('keyboar_hover');
     }
     /* 
     ==========================================================================
@@ -204,6 +237,7 @@ function HomePage() {
             if (searchedWord === chosenWord) {
                 for (let i = 0; i < 5; i++){
                     cellsRef.current[`${row}${i}`].classList.add('right_place');
+                    addClassToKeyBoard('right_place', chosenWord[i]);
                     setPlaying(false);
                     setChosenWord('');
                 }
@@ -284,30 +318,110 @@ function HomePage() {
 
                             {/* Teclado First Row */}
                             <div className="keyboard_row letters_first_row">
-                                <button className="keyboard_letter">Q</button>
-                                <button className="keyboard_letter">W</button>
-                                <button className="keyboard_letter">E</button>
-                                <button className="keyboard_letter">R</button>
-                                <button className="keyboard_letter">T</button>
-                                <button className="keyboard_letter">Y</button>
-                                <button className="keyboard_letter">U</button>
-                                <button className="keyboard_letter">I</button>
-                                <button className="keyboard_letter">O</button>
-                                <button className="keyboard_letter">P</button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'Q')} 
+                                className="keyboard_letter keyboar_hover">
+                                    Q
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'W')} 
+                                className="keyboard_letter keyboar_hover">
+                                    W
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'E')} 
+                                className="keyboard_letter keyboar_hover">
+                                    E
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'R')} 
+                                className="keyboard_letter keyboar_hover">
+                                    R
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'T')} 
+                                className="keyboard_letter keyboar_hover">
+                                    T
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'Y')} 
+                                className="keyboard_letter keyboar_hover">
+                                    Y
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'U')} 
+                                className="keyboard_letter keyboar_hover">
+                                    U
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'I')} 
+                                className="keyboard_letter keyboar_hover">
+                                    I
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'O')} 
+                                className="keyboard_letter keyboar_hover">
+                                    O
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'P')} 
+                                className="keyboard_letter keyboar_hover">
+                                    P
+                                </button>
                             </div>
 
                             {/* Teclado Second Row */}
                             <div className="keyboard_row letters_second_row">
-                                <button className="keyboard_letter">A</button>
-                                <button className="keyboard_letter">S</button>
-                                <button className="keyboard_letter">D</button>
-                                <button className="keyboard_letter">F</button>
-                                <button className="keyboard_letter">G</button>
-                                <button className="keyboard_letter">H</button>
-                                <button className="keyboard_letter">J</button>
-                                <button className="keyboard_letter">K</button>
-                                <button className="keyboard_letter">L</button>
-                                <button className="keyboard_letter">Ñ</button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'A')}
+                                className="keyboard_letter keyboar_hover">
+                                    A
+                                </button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'S')}
+                                className="keyboard_letter keyboar_hover">
+                                    S
+                                </button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'D')}
+                                className="keyboard_letter keyboar_hover">
+                                    D
+                                </button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'F')}
+                                className="keyboard_letter keyboar_hover">
+                                    F
+                                </button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'G')}
+                                className="keyboard_letter keyboar_hover">
+                                    G
+                                </button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'H')}
+                                className="keyboard_letter keyboar_hover">
+                                    H
+                                </button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'J')}
+                                className="keyboard_letter keyboar_hover">
+                                    J
+                                </button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'K')}
+                                className="keyboard_letter keyboar_hover">
+                                    K
+                                </button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'L')}
+                                className="keyboard_letter keyboar_hover">
+                                    L
+                                </button>
+                                <button
+                                ref={el => addToKeyRefs(el, 'Ñ')}
+                                className="keyboard_letter keyboar_hover">
+                                    Ñ
+                                </button>
                             </div>
 
                             {/* Teclado Third Row */}
@@ -315,13 +429,41 @@ function HomePage() {
                                 <button className="keyboard_letter">
                                     <i className="bi bi-check2"></i>
                                 </button>
-                                <button className="keyboard_letter">Z</button>
-                                <button className="keyboard_letter">X</button>
-                                <button className="keyboard_letter">C</button>
-                                <button className="keyboard_letter">V</button>
-                                <button className="keyboard_letter">B</button>
-                                <button className="keyboard_letter">N</button>
-                                <button className="keyboard_letter">M</button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'Z')}
+                                className="keyboard_letter keyboar_hover">
+                                    Z
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'X')}
+                                className="keyboard_letter keyboar_hover">
+                                    X
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'C')}
+                                className="keyboard_letter keyboar_hover">
+                                    C
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'V')}
+                                className="keyboard_letter keyboar_hover">
+                                    V
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'B')}
+                                className="keyboard_letter keyboar_hover">
+                                    B
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'N')}
+                                className="keyboard_letter keyboar_hover">
+                                    N
+                                </button>
+                                <button 
+                                ref={el => addToKeyRefs(el, 'M')}
+                                className="keyboard_letter keyboar_hover">
+                                    M
+                                </button>
                                 <button className="keyboard_letter">
                                     <i className="bi bi-backspace"></i>
                                 </button>

@@ -51,3 +51,20 @@ Código:
             cellsRef.current[`${row}${i}`].classList.add('wrong_letter');
         }
     }
+
+# Función addClassToKeyBoard
+Antes de empezar con esta función, me conviene crear un componente para cada letra del teclado, así limpio un poco el código y se me hace más sencillo buscar el div a colorear.
+
+Funcionalidad:
+    - Añade la clase correspondiente a la letra del teclado, según corresponda: verde si está en el lugar correcta, amarillo si está en la palabra o gris si no está en la palabra.
+    - Si ya tiene la clase verde, no puede agregar otra clase;
+    - Si no tiene la verde, pero sí la amarilla, no puede agregar la gris;
+    - Si no tiene ninguna, agrega la gris.
+
+Pasa como parámetro la letra a buscar y la clase a agregar
+
+Pseudocódigo:
+    - Creo la variable que contiene al elemento.
+    - Si la clase a agregar es right_plcae, la agrego;
+    - Si es right_letter y no contiene la clase right_place, agrego right_letter
+    - 
