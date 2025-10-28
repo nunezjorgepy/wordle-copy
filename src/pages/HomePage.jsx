@@ -3,6 +3,7 @@ import axios from "axios";
 import './HomePage.css';
 
 import WordRowComponent from "../components/WordRowComponent";
+import KeyBoardRowComponent from "../components/KeyBoardRowComponent";
 
 function HomePage() {
     /* useStates */
@@ -317,162 +318,20 @@ function HomePage() {
                         <div className="letters_container">
 
                             {/* Teclado First Row */}
-                            <div className="keyboard_row letters_first_row">
-                                <button 
-                                ref={el => addToKeyRefs(el, 'Q')} 
-                                className="keyboard_letter keyboar_hover">
-                                    Q
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'W')} 
-                                className="keyboard_letter keyboar_hover">
-                                    W
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'E')} 
-                                className="keyboard_letter keyboar_hover">
-                                    E
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'R')} 
-                                className="keyboard_letter keyboar_hover">
-                                    R
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'T')} 
-                                className="keyboard_letter keyboar_hover">
-                                    T
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'Y')} 
-                                className="keyboard_letter keyboar_hover">
-                                    Y
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'U')} 
-                                className="keyboard_letter keyboar_hover">
-                                    U
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'I')} 
-                                className="keyboard_letter keyboar_hover">
-                                    I
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'O')} 
-                                className="keyboard_letter keyboar_hover">
-                                    O
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'P')} 
-                                className="keyboard_letter keyboar_hover">
-                                    P
-                                </button>
-                            </div>
+                            <KeyBoardRowComponent letters={['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']} addToKeyRefs={addToKeyRefs} />
 
                             {/* Teclado Second Row */}
-                            <div className="keyboard_row letters_second_row">
-                                <button
-                                ref={el => addToKeyRefs(el, 'A')}
-                                className="keyboard_letter keyboar_hover">
-                                    A
-                                </button>
-                                <button
-                                ref={el => addToKeyRefs(el, 'S')}
-                                className="keyboard_letter keyboar_hover">
-                                    S
-                                </button>
-                                <button
-                                ref={el => addToKeyRefs(el, 'D')}
-                                className="keyboard_letter keyboar_hover">
-                                    D
-                                </button>
-                                <button
-                                ref={el => addToKeyRefs(el, 'F')}
-                                className="keyboard_letter keyboar_hover">
-                                    F
-                                </button>
-                                <button
-                                ref={el => addToKeyRefs(el, 'G')}
-                                className="keyboard_letter keyboar_hover">
-                                    G
-                                </button>
-                                <button
-                                ref={el => addToKeyRefs(el, 'H')}
-                                className="keyboard_letter keyboar_hover">
-                                    H
-                                </button>
-                                <button
-                                ref={el => addToKeyRefs(el, 'J')}
-                                className="keyboard_letter keyboar_hover">
-                                    J
-                                </button>
-                                <button
-                                ref={el => addToKeyRefs(el, 'K')}
-                                className="keyboard_letter keyboar_hover">
-                                    K
-                                </button>
-                                <button
-                                ref={el => addToKeyRefs(el, 'L')}
-                                className="keyboard_letter keyboar_hover">
-                                    L
-                                </button>
-                                <button
-                                ref={el => addToKeyRefs(el, 'Ñ')}
-                                className="keyboard_letter keyboar_hover">
-                                    Ñ
-                                </button>
-                            </div>
+                            <KeyBoardRowComponent letters={['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ']} addToKeyRefs={addToKeyRefs} />
 
                             {/* Teclado Third Row */}
-                            <div className="keyboard_row letters_third_row">
-                                <button className="keyboard_letter">
-                                    <i className="bi bi-check2"></i>
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'Z')}
-                                className="keyboard_letter keyboar_hover">
-                                    Z
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'X')}
-                                className="keyboard_letter keyboar_hover">
-                                    X
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'C')}
-                                className="keyboard_letter keyboar_hover">
-                                    C
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'V')}
-                                className="keyboard_letter keyboar_hover">
-                                    V
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'B')}
-                                className="keyboard_letter keyboar_hover">
-                                    B
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'N')}
-                                className="keyboard_letter keyboar_hover">
-                                    N
-                                </button>
-                                <button 
-                                ref={el => addToKeyRefs(el, 'M')}
-                                className="keyboard_letter keyboar_hover">
-                                    M
-                                </button>
-                                <button className="keyboard_letter">
-                                    <i className="bi bi-backspace"></i>
-                                </button>
-                            </div>
+                            <KeyBoardRowComponent letters={['Z', 'X', 'C', 'V', 'B', 'N', 'M']} addToKeyRefs={addToKeyRefs} row={3} />
                         </div>
                     </div>
                 </section>
 
+                {/* Mensaje de faltan letras */}
                 <div ref={incomplete_word} className="error_msg incomplete_word">No hay suficientes letras</div>
+                {/* Palabra no encontrada */}
                 <div ref={not_on_list} className="error_msg not_on_list">La palabra no está en la lista</div>
             </main>
         </>

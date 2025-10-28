@@ -52,19 +52,15 @@ Código:
         }
     }
 
-# Función addClassToKeyBoard
-Antes de empezar con esta función, me conviene crear un componente para cada letra del teclado, así limpio un poco el código y se me hace más sencillo buscar el div a colorear.
+# Función para las teclas del tecaldo en pantalla
+Intento N°1:
+Para las letras, llevar Todo el código desde 'const letra = e.key.toUpperCase();' (actualmente, línea 176) hasta el fin de esa funcionalidad (línea 186) a otra función que acepte como parámetro:
+	- La variable letra si es en el eventListener
+	- La letra del teclado en pantalla si es por pantalla
 
-Funcionalidad:
-    - Añade la clase correspondiente a la letra del teclado, según corresponda: verde si está en el lugar correcta, amarillo si está en la palabra o gris si no está en la palabra.
-    - Si ya tiene la clase verde, no puede agregar otra clase;
-    - Si no tiene la verde, pero sí la amarilla, no puede agregar la gris;
-    - Si no tiene ninguna, agrega la gris.
+Puedo hacer lo mismo con las otras funciones.
 
-Pasa como parámetro la letra a buscar y la clase a agregar
+Al parecer, en el caso de key-up, nada de la función necesita el valor de la letra, por lo que puedo encerrar todo en otra función y llamarla al terminar el código de la función key-down.
 
-Pseudocódigo:
-    - Creo la variable que contiene al elemento.
-    - Si la clase a agregar es right_plcae, la agrego;
-    - Si es right_letter y no contiene la clase right_place, agrego right_letter
-    - 
+
+A como quedó el código ahora, es posible que me convenga agregar el componente para los botones del teclado. Pero eso es otra historia.
