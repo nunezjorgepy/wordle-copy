@@ -161,12 +161,14 @@ function HomePage() {
     const onLetterPress = (letra) => {
         /* Se jecuta al presionar una letra. Ingresa la letra en la casilla actual, además de quitar la clase current_cell. Setea chosenWord y la nueva celda. */
         /* Setting chosenWord */
+        if (chosenWord.length === 5) return
         setChosenWord((prevWord) => prevWord + letra);
 
         /* Writing the lleter and removing current_cell class from current Cell */
         const currentCell = cellsRef.current[`${row}${cell}`];
         currentCell.innerHTML = letra;
         currentCell.classList.remove('current_cell');
+        currentCell.blur();
 
         /* Moving to next cell */
         setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : prevCell));
@@ -187,7 +189,7 @@ function HomePage() {
         if (!playing) return; // Si no estoy jugando, no hace nada.
 
         
-        if ('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(e.key.toUpperCase()) && chosenWord.length !== 5) {
+        if ('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(e.key.toUpperCase())) {
             const letra = e.key.toUpperCase();
             onLetterPress(letra);
         }
