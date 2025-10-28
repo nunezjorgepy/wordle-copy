@@ -157,6 +157,20 @@ function HomePage() {
         /* Saca la clase que el da el hover a las letras. */
         uncoloredLetter.classList.remove('keyboar_hover');
     }
+
+    const onLetterPress = (letra) => {
+        /* Se jecuta al presionar una letra. Ingresa la letra en la casilla actual, además de quitar la clase current_cell. Setea chosenWord y la nueva celda. */
+        /* Setting chosenWord */
+        setChosenWord((prevWord) => prevWord + letra);
+
+        /* Writing the lleter and removing current_cell class from current Cell */
+        const currentCell = cellsRef.current[`${row}${cell}`];
+        currentCell.innerHTML = letra;
+        currentCell.classList.remove('current_cell');
+
+        /* Moving to next cell */
+        setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : prevCell));
+    }
     /* 
     ==========================================================================
     ==========================================================================
@@ -175,16 +189,7 @@ function HomePage() {
         
         if ('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(e.key.toUpperCase()) && chosenWord.length !== 5) {
             const letra = e.key.toUpperCase();
-            /* Setting chosenWord */
-            setChosenWord((prevWord) => prevWord + letra);
-
-            /* Writing the lleter and removing current_cell class from current Cell */
-            const currentCell = cellsRef.current[`${row}${cell}`];
-            currentCell.innerHTML = letra;
-            currentCell.classList.remove('current_cell');
-
-            /* Moving to next cell */
-            setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : prevCell));
+            onLetterPress(letra);
         }
 
         if (e.key === 'Backspace') {
@@ -220,6 +225,7 @@ function HomePage() {
             // TODO: when I press Enter, it should check if chosenWord has 5 characters, if it exists and all the winning or not winning functions.
 
             /* If the word doesn't have enough letters */
+            console.log(chosenWord);
             if (chosenWord.length < 5){
                 // If chosen word doesn't have enough letter, show error
                 showErrorMsg(incomplete_word)
@@ -318,13 +324,26 @@ function HomePage() {
                         <div className="letters_container">
 
                             {/* Teclado First Row */}
-                            <KeyBoardRowComponent letters={['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']} addToKeyRefs={addToKeyRefs} />
+                            <KeyBoardRowComponent 
+                            letters={['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']} 
+                            addToKeyRefs={addToKeyRefs} 
+                            onLetterPress={onLetterPress}
+                            />
 
                             {/* Teclado Second Row */}
-                            <KeyBoardRowComponent letters={['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ']} addToKeyRefs={addToKeyRefs} />
+                            <KeyBoardRowComponent 
+                            letters={['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ']} 
+                            addToKeyRefs={addToKeyRefs} 
+                            onLetterPress={onLetterPress}
+                            />
 
                             {/* Teclado Third Row */}
-                            <KeyBoardRowComponent letters={['Z', 'X', 'C', 'V', 'B', 'N', 'M']} addToKeyRefs={addToKeyRefs} row={3} />
+                            <KeyBoardRowComponent 
+                            letters={['Z', 'X', 'C', 'V', 'B', 'N', 'M']} 
+                            addToKeyRefs={addToKeyRefs} 
+                            row={3} 
+                            onLetterPress={onLetterPress}
+                            />
                         </div>
                     </div>
                 </section>

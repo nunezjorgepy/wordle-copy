@@ -85,6 +85,9 @@
     text-transform: uppercase;
     transition: var(--bg-color-transition);
 }
+.keyboard_letter:focus{
+    outline: none;
+}
 .keyboar_hover{
     /* Solo esta para sacar el efecto hover de una letra elegida */
     /* La clase quedó mal escrita. Debería ser keyobaorD_hover, pero no tengo ganas de modificar todo el HTML */

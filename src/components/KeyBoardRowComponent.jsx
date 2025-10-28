@@ -1,14 +1,15 @@
 
 
 function KeyBoardRowComponent(props) {
-    const { letters, addToKeyRefs, row } = props;
+    const { letters, addToKeyRefs, onLetterPress, row } = props;
 
     const HTMLLetters = letters.map((letter) => {
         return (
             <button 
             ref={el => addToKeyRefs(el, letter)} 
             className="keyboard_letter keyboar_hover"
-            key={`letter_${letter}`}>
+            key={`letter_${letter}`}
+            onClick={() => onLetterPress(letter)}>
                 {letter}
             </button>
         )
