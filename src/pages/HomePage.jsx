@@ -75,6 +75,17 @@ function HomePage() {
         return LETTEROBJECT
     }
 
+    /* Check Right Place */
+    const checkRightPlace = (LETTERCOUNT) => {
+        for (let i = 0; i < searchedWord.length; i++){
+            if (searchedWord[i] === chosenWord[i]){
+                let currentCell = cellsRef.current[`${row}${i}`];
+                currentCell.classList.add('right_place');
+                LETTERCOUNT[chosenWord[i]]--;
+            }
+        }
+    }
+
     /* Check Right Letter */
     const checkRightetter = (LETTERCOUNT) => {
         /* 
@@ -185,19 +196,11 @@ function HomePage() {
                 return false
             }
 
-            /* Creo que este es un buen lugar para crear la variable de letras disponibles/usadas. Antes, no se necesita, por lo que es una pérdida de memoria crearla antes. */
             const LETTERCOUNT = countingLEtters();
             console.log(LETTERCOUNT);
 
-            /* Check if letter is in the right place */
-            for (let i = 0; i < searchedWord.length; i++){
-                if (searchedWord[i] === chosenWord[i]){
-                    let currentCell = cellsRef.current[`${row}${i}`];
-                    currentCell.classList.add('right_place');
-                    LETTERCOUNT[chosenWord[i]]--;
-                }
-            }
-            checkRightetter(LETTERCOUNT);
+            checkRightPlace(LETTERCOUNT);   // Check if it is in the right place
+            checkRightetter(LETTERCOUNT);   // Check if it is in the word. If not, pain it gray
 
             console.log(LETTERCOUNT);
         }
