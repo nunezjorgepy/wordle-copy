@@ -1,7 +1,7 @@
 
 
 function KeyBoardRowComponent(props) {
-    const { letters, addToKeyRefs, onLetterPress, row } = props;
+    const { letters, addToKeyRefs, onLetterPress, onLetterRelease, row } = props;
 
     const HTMLLetters = letters.map((letter) => {
         return (
@@ -9,11 +9,16 @@ function KeyBoardRowComponent(props) {
             ref={el => addToKeyRefs(el, letter)} 
             className="keyboard_letter keyboar_hover"
             key={`letter_${letter}`}
-            onClick={() => onLetterPress(letter)}>
+            onClick={() => screenKeyboardFunction(letter)}>
                 {letter}
             </button>
         )
     })
+
+    const screenKeyboardFunction = (letter) => {
+        onLetterPress(letter);
+        onLetterRelease(letter, 'screenKey');
+    }
 
     return (
         <div className="keyboard_row letters_first_row">
