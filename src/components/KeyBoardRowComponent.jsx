@@ -17,7 +17,6 @@ function KeyBoardRowComponent(props) {
 
     const screenKeyboardFunction = (letter) => {
         onLetterPress(letter);
-        onLetterRelease(letter, 'screenKey');
     }
 
     return (

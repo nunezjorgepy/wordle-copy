@@ -160,15 +160,24 @@ function HomePage() {
 
     const onLetterPress = (letra) => {
         /* Se jecuta al presionar una letra. Ingresa la letra en la casilla actual, además de quitar la clase current_cell. Setea chosenWord y la nueva celda. */
-        /* Setting chosenWord */
+
+        /* Si chosenWord ya tiene 5 letras, la función se termina y no hace nada. */
         if (chosenWord.length === 5) return
+
+        /* Setting chosenWord */
         setChosenWord((prevWord) => prevWord + letra);
 
-        /* Writing the lleter and removing current_cell class from current Cell */
+        /* Writing the letter and removing current_cell class from current Cell */
         const currentCell = cellsRef.current[`${row}${cell}`];
         currentCell.innerHTML = letra;
         currentCell.classList.remove('current_cell');
         currentCell.blur();
+
+        /* Add current_cell to the next cell */
+        if (cell !== 4){
+            const nextCell = cellsRef.current[`${row}${cell + 1}`];
+            nextCell.classList.add('current_cell');
+        }
 
         /* Moving to next cell */
         setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : prevCell));
@@ -253,12 +262,12 @@ function HomePage() {
             }
 
             /* Check if word is in dictionary */
-            try {
+            /* try {
                 const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
             } catch (error) {
                 showErrorMsg(not_on_list)
                 return false
-            }
+            } */
 
             /* Check if the user won */
             if (searchedWord === chosenWord) {
