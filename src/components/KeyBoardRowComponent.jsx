@@ -1,7 +1,7 @@
 
 
 function KeyBoardRowComponent(props) {
-    const { letters, addToKeyRefs, onLetterPress, onLetterRelease, row } = props;
+    const { letters, addToKeyRefs, onLetterPress, row } = props;
 
     const HTMLLetters = letters.map((letter) => {
         return (

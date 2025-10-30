@@ -219,23 +219,7 @@ function HomePage() {
         })
     }
 
-    const onLetterRelease = (letra, platform) => {
-        /* Updates the useStates, deletes the letters on the cell and... */
-        let adding;     // No me acuerdo por qué es necesario. Estoy quemado. Pero sin esto funciona mal.
-        platform === 'keyboard' || cell === 4 ? adding = 0 : adding = 1;
 
-        let currentCell = cellsRef.current[`${row}${cell + adding}`];
-
-        /* Add the class to the next cell */
-        if (chosenWord.length !== 5) {
-            currentCell.classList.add('current_cell');
-        }
-
-        /* Delete the letter from the cell */
-        if (letra === 'Backspace'){
-            currentCell.innerHTML = '';
-        } 
-    }
     /* 
     ==========================================================================
     ==========================================================================
@@ -299,17 +283,6 @@ function HomePage() {
             setCellAndRow();                // Set new Row and Cell
 
         }
-
-        /* DEBUG function: this function only lets me log searchedWord to know which one it is. It MUST be deleted after the app is completed. */
-        if (e.key === ' ') {
-            console.log('searchedWord is: ', searchedWord);
-        }
-    }
-
-    const handleKeyUp = (e) => {
-        if (!playing) return false  // If I'm not playing, nothing happens
-        const letter = e.key;
-
     }
 
     useEffect(() => {
@@ -319,13 +292,11 @@ function HomePage() {
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
-        document.addEventListener('keyup', handleKeyUp);
 
         return () => {
-            document.removeEventListener('keyup', handleKeyUp);
             document.removeEventListener('keydown', handleKeyDown)
         }
-    }, [handleKeyUp, handleKeyDown])
+    }, [handleKeyDown])
     
     return (
         <>
@@ -356,7 +327,6 @@ function HomePage() {
                             letters={['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']} 
                             addToKeyRefs={addToKeyRefs} 
                             onLetterPress={onLetterPress}
-                            onLetterRelease={onLetterRelease}
                             />
 
                             {/* Teclado Second Row */}
@@ -364,7 +334,6 @@ function HomePage() {
                             letters={['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ']} 
                             addToKeyRefs={addToKeyRefs} 
                             onLetterPress={onLetterPress}
-                            onLetterRelease={onLetterRelease}
                             />
 
                             {/* Teclado Third Row */}
@@ -373,7 +342,6 @@ function HomePage() {
                             addToKeyRefs={addToKeyRefs} 
                             row={3} 
                             onLetterPress={onLetterPress}
-                            onLetterRelease={onLetterRelease}
                             />
                         </div>
                     </div>
