@@ -65,8 +65,31 @@ function HomePage() {
 
     /* New Game Funciton */
     const newGame = () => {
-        newGemaBtn.current.blur()
-        getRAEword();
+        newGemaBtn.current.blur()   // Evita que al presionar enter se vuelva a ejecutar la función
+        /* getRAEword(); */         // TODO: al acceder a una buena API o array de palabras, tengo que hacer esta función
+
+        setSearchedWord('LUGAR');     // Setea una nueva palabra. Más adelante, esto se hará con la función getRAEWord
+
+        setPlaying(true);           // Permite jugar
+
+        for (let key in cellsRef.current){
+            cellsRef.current[key].classList.remove('right_place');
+            cellsRef.current[key].classList.remove('right_letter');
+            cellsRef.current[key].classList.remove('wrong_letter');
+            cellsRef.current[key].innerHTML = '';
+        }
+
+        for (const KEY in keyBoardRef.current){
+            keyBoardRef.current[KEY].classList.remove('right_place');
+            keyBoardRef.current[KEY].classList.remove('right_letter');
+            keyBoardRef.current[KEY].classList.remove('wrong_letter');
+        }
+
+        const FIRST_ROW_CELL = cellsRef.current['00'];
+        FIRST_ROW_CELL.classList.add('current_cell');
+
+        setCell(0);
+        setRow(0);
     }
 
     /* Counting Letters */

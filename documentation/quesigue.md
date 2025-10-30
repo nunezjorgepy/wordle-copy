@@ -64,3 +64,20 @@ Al parecer, en el caso de key-up, nada de la función necesita el valor de la le
 
 
 A como quedó el código ahora, es posible que me convenga agregar el componente para los botones del teclado. Pero eso es otra historia.
+
+
+# Botón juego nuevo
+¿Qué cosas debe resetear?
+    - Buscar una nueva palabra para adivinar
+    - chosenWord a '' (OJO: la función enter no resetea la palabra si el jugador ganó)
+
+    - Eliminar la clase right_place de cada letra en la grilla  --
+    - Eliminar la clase right_letter de cada letra en la grilla   | -- Hacer juntas
+    - Eliminar la clase wrong_letter de cada letra en la grilla --
+
+    - Eliminar la clase right_place de cada letra en el teclado de pantalla
+    - Eliminar la clase right_letter de cada letra en el teclado de pantalla
+    - Eliminar la clase wrong_letter de cada letra en el teclado de pantalla
+    
+    - Dar foco a la primera celda de la primera fila
+    - Dar clase current_cell a la primera celda de la primer fila
