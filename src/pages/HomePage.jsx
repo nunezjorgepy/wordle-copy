@@ -18,6 +18,8 @@ function HomePage() {
     const incomplete_word = useRef(null);
     const not_on_list = useRef(null);
     const newGemaBtn = useRef(null)
+    const enterRef = useRef(null)
+    const backspaceRef = useRef(null)
 
 
     /* 
@@ -181,6 +183,8 @@ function HomePage() {
 
         /* Moving to next cell */
         setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : prevCell));
+
+        keyBoardRef.current[letra].blur();      // Desenfoca la tecla (letra) de la pantalla
     }
 
     const onBackspacePress = () => {
@@ -217,6 +221,8 @@ function HomePage() {
                 return prevCell - 1
             }
         })
+
+        backspaceRef.current.blur();    // Desenfoca la tecla Backspace de la pantalla
     }
 
 
@@ -250,6 +256,9 @@ function HomePage() {
 
             /* If the word doesn't have enough letters */
             console.log(chosenWord);
+            
+            enterRef.current.blur();    // Desenfoca la tecla Enter de la pantalla
+            
             if (chosenWord.length < 5){
                 // If chosen word doesn't have enough letter, show error
                 showErrorMsg(incomplete_word)
@@ -282,6 +291,7 @@ function HomePage() {
             checkRightetter(LETTERCOUNT);   // Check if it is in the word. If not, pain it gray
             setCellAndRow();                // Set new Row and Cell
 
+            console.log(enterRef.current)
         }
     }
 
@@ -343,6 +353,8 @@ function HomePage() {
                             row={3} 
                             onLetterPress={onLetterPress}
                             onBackspacePress={onBackspacePress}
+                            enterRef={enterRef}
+                            backspaceRef={backspaceRef}
                             />
                         </div>
                     </div>
