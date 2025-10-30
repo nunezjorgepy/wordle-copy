@@ -225,6 +225,48 @@ function HomePage() {
         backspaceRef.current.blur();    // Desenfoca la tecla Backspace de la pantalla
     }
 
+    const onEnterPress = () => {
+        // When I press Enter, it should check if chosenWord has 5 characters, if it exists and all the winning or not winning functions.
+
+        console.log(chosenWord);
+        
+        enterRef.current.blur();    // Desenfoca la tecla Enter de la pantalla
+        
+        /* If the word doesn't have enough letters */
+        if (chosenWord.length < 5){
+            // If chosen word doesn't have enough letter, show error
+            showErrorMsg(incomplete_word)
+            return false
+        }
+
+        /* TODO: como la API de la RAE no funciona muy bien, tengo que cambiar este método. */
+        /* Check if word is in dictionary */
+        /* try {
+            const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
+        } catch (error) {
+            showErrorMsg(not_on_list)
+            return false
+        } */
+
+        /* Check if the user won */
+        if (searchedWord === chosenWord) {
+            for (let i = 0; i < 5; i++){
+                cellsRef.current[`${row}${i}`].classList.add('right_place');
+                addClassToKeyBoard('right_place', chosenWord[i]);
+                setPlaying(false);
+                setChosenWord('');
+            }
+            return false
+        }
+
+        const LETTERCOUNT = countingLEtters();      // Crea el objeto para contar las apariciones de las letras
+        
+        setChosenWord('');              // If not reset, the game doesn't continue.
+        checkRightPlace(LETTERCOUNT);   // Check if it is in the right place
+        checkRightetter(LETTERCOUNT);   // Check if it is in the word. If not, pain it gray
+        setCellAndRow();                // Set new Row and Cell
+    }
+
 
     /* 
     ==========================================================================
@@ -252,46 +294,7 @@ function HomePage() {
         }
 
         if (e.key === 'Enter') {
-            // TODO: when I press Enter, it should check if chosenWord has 5 characters, if it exists and all the winning or not winning functions.
-
-            /* If the word doesn't have enough letters */
-            console.log(chosenWord);
-            
-            enterRef.current.blur();    // Desenfoca la tecla Enter de la pantalla
-            
-            if (chosenWord.length < 5){
-                // If chosen word doesn't have enough letter, show error
-                showErrorMsg(incomplete_word)
-                return false
-            }
-
-            /* Check if word is in dictionary */
-            /* try {
-                const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
-            } catch (error) {
-                showErrorMsg(not_on_list)
-                return false
-            } */
-
-            /* Check if the user won */
-            if (searchedWord === chosenWord) {
-                for (let i = 0; i < 5; i++){
-                    cellsRef.current[`${row}${i}`].classList.add('right_place');
-                    addClassToKeyBoard('right_place', chosenWord[i]);
-                    setPlaying(false);
-                    setChosenWord('');
-                }
-                return false
-            }
-
-            const LETTERCOUNT = countingLEtters();
-            
-            setChosenWord('');              // If not reset, the game doesn't continue.
-            checkRightPlace(LETTERCOUNT);   // Check if it is in the right place
-            checkRightetter(LETTERCOUNT);   // Check if it is in the word. If not, pain it gray
-            setCellAndRow();                // Set new Row and Cell
-
-            console.log(enterRef.current)
+            onEnterPress();
         }
     }
 
@@ -354,6 +357,7 @@ function HomePage() {
                             onLetterPress={onLetterPress}
                             onBackspacePress={onBackspacePress}
                             enterRef={enterRef}
+                            onEnterPress={onEnterPress}
                             backspaceRef={backspaceRef}
                             />
                         </div>
