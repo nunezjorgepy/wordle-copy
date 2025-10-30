@@ -33,3 +33,33 @@ const onLetterRelease = (letra, platform) => {
         currentCell.innerHTML = '';
     } 
 }
+
+/* Backspcae. Esto va dentro del eventlisener, en el if del backspace. */
+if (e.key === 'Backspace') {
+    /* Eliminar la última letra de chosenWord */
+    setChosenWord((prevWord) => {
+        const newWord = prevWord.length !== 0 ? prevWord.slice(0, -1) : prevWord
+        return newWord
+    })
+
+    /* Elige la celda actual y elimina la clase */
+    const currentCell = cellsRef.current[`${row}${cell}`];
+    currentCell.classList.remove('current_cell');
+
+    /* Foco en la celda anterior */
+    setCell((prevCell) => {
+        /* Ok, so this one was a perra.
+            - If I wrote 5 characters, it deletes the last one, the letter from the cell, but it remains in the last cell;
+            - If it's on the first cell (index = 0), it remains there and nothing else
+            - Else, sets the cell index to the previous one.
+        */
+        if (prevCell === 4 && chosenWord.length === 5){
+            currentCell.innerHTML = '';
+            return 4
+        } else if (prevCell === 0) {
+            return 0
+        } else{
+            return prevCell - 1
+        }
+    })
+}

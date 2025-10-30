@@ -162,7 +162,7 @@ function HomePage() {
         /* Se jecuta al presionar una letra. Ingresa la letra en la casilla actual, además de quitar la clase current_cell. Setea chosenWord y la nueva celda. */
 
         /* Si chosenWord ya tiene 5 letras, la función se termina y no hace nada. */
-        if (chosenWord.length === 5) return
+        if (chosenWord.length === 5 || !playing) return
 
         /* Setting chosenWord */
         setChosenWord((prevWord) => prevWord + letra);
@@ -181,6 +181,42 @@ function HomePage() {
 
         /* Moving to next cell */
         setCell((prevCell) => (prevCell !== 4 ? prevCell + 1 : prevCell));
+    }
+
+    const onBackspacePress = () => {
+        /* Al presionar Backspace, borra la última letra de chosenWord, cambia la celda actual y borra la letra de la celda correspondiente. */
+        if (!playing || chosenWord.length === 0) return;     // Si no estoy jugando o estoy en la primera celda, termina la función
+
+        setChosenWord(prevWord => prevWord.slice(0, -1));    // Elimina la última letra de chosenWord
+
+        let currentCell = cellsRef.current[`${row}${cell}`];
+        
+        if (chosenWord.length === 5) {
+            /* Si ya hay 5 letras en chosen Word */
+            currentCell.innerHTML = '';
+            currentCell.classList.add('current_cell');
+        }
+        else{
+            let newCell = cellsRef.current[`${row}${cell - 1}`];
+            currentCell.classList.remove('current_cell');
+            newCell.classList.add('current_cell');
+            newCell.innerHTML = '';
+        }
+
+        setCell((prevCell) => {
+            /* Ok, so this one was a perra.
+                - If I wrote 5 characters, it deletes the last one, the letter from the cell, but it remains in the last cell;
+                - If it's on the first cell (index = 0), it remains there and nothing else
+                - Else, sets the cell index to the previous one.
+            */
+            if (prevCell === 4 && chosenWord.length === 5){
+                return 4
+            } else if (prevCell === 0) {
+                return 0
+            } else{
+                return prevCell - 1
+            }
+        })
     }
 
     const onLetterRelease = (letra, platform) => {
@@ -222,32 +258,7 @@ function HomePage() {
         }
 
         if (e.key === 'Backspace') {
-            /* Eliminar la última letra de chosenWord */
-            setChosenWord((prevWord) => {
-                const newWord = prevWord.length !== 0 ? prevWord.slice(0, -1) : prevWord
-                return newWord
-            })
-
-            /* Elige la celda actual y elimina la clase */
-            const currentCell = cellsRef.current[`${row}${cell}`];
-            currentCell.classList.remove('current_cell');
-
-            /* Foco en la celda anterior */
-            setCell((prevCell) => {
-                /* Ok, so this one was a perra.
-                    - If I wrote 5 characters, it deletes the last one, the letter from the cell, but it remains in the last cell;
-                    - If it's on the first cell (index = 0), it remains there and nothing else
-                    - Else, sets the cell index to the previous one.
-                */
-                if (prevCell === 4 && chosenWord.length === 5){
-                    currentCell.innerHTML = '';
-                    return 4
-                } else if (prevCell === 0) {
-                    return 0
-                } else{
-                    return prevCell - 1
-                }
-            })
+            onBackspacePress();
         }
 
         if (e.key === 'Enter') {
@@ -298,7 +309,6 @@ function HomePage() {
     const handleKeyUp = (e) => {
         if (!playing) return false  // If I'm not playing, nothing happens
         const letter = e.key;
-        onLetterRelease(letter, 'keyboard')
 
     }
 
