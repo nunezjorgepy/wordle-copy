@@ -130,6 +130,7 @@ function HomePage() {
         setCell(0);
         setRow(prevRow => {
             if (prevRow !== 5){
+                cellsRef.current[`${row + 1}${0}`].classList.add('current_cell');   // De yapa, agrega la clase en la próxima fila
                 return prevRow + 1;
             } else {
                 console.log(`Perdiste. La palabra es: ${searchedWord}`);
@@ -137,7 +138,6 @@ function HomePage() {
                 return 0
             }
         })
-        cellsRef.current[`${row}${cell}`].classList.add('current_letter');
     }
 
     const addClassToKeyBoard = (colorClass, letter) => {
@@ -227,8 +227,6 @@ function HomePage() {
 
     const onEnterPress = () => {
         // When I press Enter, it should check if chosenWord has 5 characters, if it exists and all the winning or not winning functions.
-
-        console.log(chosenWord);
         
         enterRef.current.blur();    // Desenfoca la tecla Enter de la pantalla
         
@@ -265,6 +263,8 @@ function HomePage() {
         checkRightPlace(LETTERCOUNT);   // Check if it is in the right place
         checkRightetter(LETTERCOUNT);   // Check if it is in the word. If not, pain it gray
         setCellAndRow();                // Set new Row and Cell
+
+
     }
 
 
@@ -283,16 +283,18 @@ function HomePage() {
     const handleKeyDown = async (e) => {
         if (!playing) return; // Si no estoy jugando, no hace nada.
 
-        
+        /* Si presioné una letra */
         if ('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.includes(e.key.toUpperCase())) {
             const letra = e.key.toUpperCase();
             onLetterPress(letra);
         }
 
+        /* Si presioné la tecla para borrar */
         if (e.key === 'Backspace') {
             onBackspacePress();
         }
 
+        /* Si presioné Enter */
         if (e.key === 'Enter') {
             onEnterPress();
         }
