@@ -1,7 +1,7 @@
 
 
 function KeyBoardRowComponent(props) {
-    const { letters, addToKeyRefs, onLetterPress, row } = props;
+    const { letters, addToKeyRefs, onLetterPress, onBackspacePress, row } = props;
 
     const HTMLLetters = letters.map((letter) => {
         return (
@@ -27,7 +27,7 @@ function KeyBoardRowComponent(props) {
 
             {HTMLLetters}
             
-            {row === 3 && <button className="keyboard_letter keyboar_hover">
+            {row === 3 && <button className="keyboard_letter keyboar_hover" onClick={() => onBackspacePress()}>
                                 <i className="bi bi-backspace"></i>
                             </button>}
         </div>

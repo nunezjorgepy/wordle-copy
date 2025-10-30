@@ -342,6 +342,7 @@ function HomePage() {
                             addToKeyRefs={addToKeyRefs} 
                             row={3} 
                             onLetterPress={onLetterPress}
+                            onBackspacePress={onBackspacePress}
                             />
                         </div>
                     </div>
