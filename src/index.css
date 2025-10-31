@@ -16,6 +16,7 @@
   /* Medidas */
   --word-cell-width: 50px;
   --letter-gap: 5px;
+  --inst-font-size: 15px;
 
   /* Transition */
   --bg-color-transition: all .15s cubic-bezier(.4,0,.2,1);
@@ -27,4 +28,9 @@
   padding: 0;
   box-sizing: border-box;
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+button {
+  border: none;
+  cursor: pointer;
 }

@@ -156,3 +156,88 @@
 .current_cell{
     border-color: var(--current-cell-color);
 }
+
+
+/* Sección Instrucciones */
+.instructions_container{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white-letter-color);
+    font-size: var(--inst-font-size);
+}
+.instruction_flex{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    max-width: 500px;
+    padding: 40px 0;
+}
+.instructions_close_btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    color: var(--white-letter-color);
+    font-weight: 700;
+    background-color: var(--right-place-color);
+    cursor: pointer;
+    transition: var(--bg-color-transition);
+}
+.instructions_paragraph{
+    margin: 10px 0;
+}
+.instructions_close_btn{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.instructions_colors{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 30px 0;
+    width: 90%;
+}
+.instructions_color{
+    display: flex;
+    justify-content: space-between;
+}
+.instructions_color_letter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    font-size: 28px;
+}
+.instruction_right_place_text{
+    width: 80%;
+    display: flex;
+    align-items: center;
+}
+.instructions_play{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.instructions_play_btn{
+    background-color: var(--right-place-color);
+    color: var(--white-letter-color);
+    font-weight: 700;
+    padding: 8px 37px;
+    border-radius: 8px;
+    transition: var(--bg-color-transition);
+}
+.instructions_play_btn:hover, .instructions_close_btn:hover{
+    background-color: var(--hover-new-btn);
+}

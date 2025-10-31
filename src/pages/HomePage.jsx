@@ -17,10 +17,11 @@ function HomePage() {
     const keyBoardRef = useRef({});
     const incomplete_word = useRef(null);
     const notOnList = useRef(null);
-    const showWord = useRef(null)
-    const newGemaBtn = useRef(null)
-    const enterRef = useRef(null)
-    const backspaceRef = useRef(null)
+    const showWord = useRef(null);
+    const newGemaBtn = useRef(null);
+    const enterRef = useRef(null);
+    const backspaceRef = useRef(null);
+    const instructions = useRef(null)
 
 
     /* 
@@ -340,6 +341,47 @@ function HomePage() {
     return (
         <>
             <main>
+                <section ref={instructions} className="instructions_container">
+                    {/* Falta la primera parte, pero ahora no tengo ganas. */}
+                    <div className="instruction_flex">
+                        <h1 className="game_title">LA PALABRA DEL DÍA</h1>
+                        <button className="instructions_close_btn">X</button>
+                        <div className="instructions_paragraph">
+                            Las reglas son simples: adivina la palabra oculta en 6 intentos. Cada intento debe ser una palabra validá y si la palabra no existe el juego te avisará.
+                        </div>
+                        <div className="instructions_paragraph">
+                            Después de cada intento el color de las casillas cambia para mostrar qué tan cerca estás de acertar la palabra
+                        </div>
+                        <div className="instructions_colors">
+                            {/* Lugar correcto */}
+                            <div className="instructions_color">
+                                <div className="instructions_color_letter right_place">M</div>
+                                <div className="instruction_right_place_text">
+                                    VERDE significa que la letra está en la palabra y en la posición CORRECTA.
+                                </div>
+                            </div>
+                            {/* Letra correcta */}
+                            <div className="instructions_color">
+                                <div className="instructions_color_letter right_letter">A</div>
+                                <div className="instruction_right_place_text">
+                                    AMARILLO significa que la letra letra está presente en la palabra pero en la posición INCORRECTA.
+                                </div>
+                            </div>
+                            {/* Letra Incorrecta */}
+                            <div className="instructions_color">
+                                <div className="instructions_color_letter wrong_letter">R</div>
+                                <div className="instruction_right_place_text">
+                                    GRIS significa que la letra letra NO está presente en la palabra.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="instructions_play">
+                            <div className="instructions_play_text">¡Una nueva palabra cada día!</div>
+                            <button className="instructions_play_btn">¡Jugar!</button>
+                        </div>
+                    </div>
+                </section>
                 <section className="section_game">
                     <div className="game_flex">
                         {/* Título */}
