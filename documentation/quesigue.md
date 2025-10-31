@@ -78,6 +78,57 @@ A como quedó el código ahora, es posible que me convenga agregar el componente
     - Eliminar la clase right_place de cada letra en el teclado de pantalla
     - Eliminar la clase right_letter de cada letra en el teclado de pantalla
     - Eliminar la clase wrong_letter de cada letra en el teclado de pantalla
-    
+
     - Dar foco a la primera celda de la primera fila
     - Dar clase current_cell a la primera celda de la primer fila
+
+Pseudocódigo:
+    <!-- Momentaneamente, la nueva palabra será 'LUGAR'. Más adelante, será elegida aleatoriamente. -->
+    - Elegir nueva palabra
+
+    - setChosenWord('')
+
+    - Para cada elemnto de cellsRef:
+        - Eliminar la calse right_place
+        - Eliminar la calse right_letter
+        - Eliminar la calse wrong_letter
+    
+    - Para cada elemnto de keyBoarRef:
+        - Eliminar la calse right_place
+        - Eliminar la calse right_letter
+        - Eliminar la calse wrong_letter
+
+    - Selecciono la primera celda de la primera fila
+    - Agrego la clase current_cell
+
+    - Seteo la cell a 0
+    - Seteo la row a 0
+
+
+Si tengo un texto en javascript del estilo:
+
+`
+abacería
+abacial
+abacora
+abacorar
+abacá
+abad
+abada
+abadejo
+abadengo
+abadernar
+abadesa
+abadiado
+abadiato
+abadí
+abadía
+abajadero
+abajamiento
+abajar
+abajera
+abajeño
+abajo
+`
+
+podes crear una función que devuelva todas las palabras de 5 letras?

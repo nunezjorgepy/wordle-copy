@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import axios from "axios";
+import PALABRAS from "../../public/listado-de-palabras";
 import './HomePage.css';
 
 import WordRowComponent from "../components/WordRowComponent";
@@ -31,7 +31,7 @@ function HomePage() {
     ==========================================================================
     ==========================================================================
     */
-    const getRAEword = async () => {
+    const getNewWord = async () => {
         /* Busca en la API de la RAE una palabra de 5 caracteres. */
         /* TODO: para evitar perder tiempo mientras la API busca una palabra, que para colmo puede contener tildes, momentaneamente hago que la palabra sea siempre SECAR. Es importante modificar esto luego. */
         /* let fecthedWord = await axios.get('https://rae-api.com/api/random');
@@ -39,7 +39,8 @@ function HomePage() {
             fecthedWord = await axios.get('https://rae-api.com/api/random');
         }
         setSearchedWord(fecthedWord.data.data.word.toUpperCase()); */
-        setSearchedWord('SECAR');
+        const RANDOM_NUMBER = Math.floor(Math.random() * PALABRAS.length);
+        setSearchedWord(PALABRAS[RANDOM_NUMBER].toUpperCase());
     }
 
     /* Añade la referencia a la celda correspondiente */
@@ -66,9 +67,9 @@ function HomePage() {
     /* New Game Funciton */
     const newGame = () => {
         newGemaBtn.current.blur()   // Evita que al presionar enter se vuelva a ejecutar la función
-        /* getRAEword(); */         // TODO: al acceder a una buena API o array de palabras, tengo que hacer esta función
+        /* getNewWord(); */         // TODO: al acceder a una buena API o array de palabras, tengo que hacer esta función
 
-        setSearchedWord('LUGAR');     // Setea una nueva palabra. Más adelante, esto se hará con la función getRAEWord
+        getNewWord();     // Setea una nueva palabra. Más adelante, esto se hará con la función getNewWord
 
         setPlaying(true);           // Permite jugar
 
@@ -300,9 +301,6 @@ function HomePage() {
     ==========================================================================
     ==========================================================================
     */
-    /* 
-    Event Listener for key down
-    */
     const handleKeyDown = async (e) => {
         if (!playing) return; // Si no estoy jugando, no hace nada.
 
@@ -321,11 +319,16 @@ function HomePage() {
         if (e.key === 'Enter') {
             onEnterPress();
         }
+
+        if (e.key === ' '){
+            /* TODO: esta función es sólo para poder verificar cuál es la palabra a adivinar. TENGO que borrarla. */
+            console.log(searchedWord);
+        }
     }
 
     useEffect(() => {
         // Busca una palabra SOLAMENTE en el primer renderizado
-        getRAEword()
+        getNewWord()
     }, [])
 
     useEffect(() => {
