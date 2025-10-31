@@ -16,7 +16,8 @@ function HomePage() {
     const cellsRef = useRef({});
     const keyBoardRef = useRef({});
     const incomplete_word = useRef(null);
-    const not_on_list = useRef(null);
+    const notOnList = useRef(null);
+    const showWord = useRef(null)
     const newGemaBtn = useRef(null)
     const enterRef = useRef(null)
     const backspaceRef = useRef(null)
@@ -153,7 +154,6 @@ function HomePage() {
                 cellsRef.current[`${row + 1}${0}`].classList.add('current_cell');   // De yapa, agrega la clase en la próxima fila
                 return prevRow + 1;
             } else {
-                console.log(`Perdiste. La palabra es: ${searchedWord}`);
                 setPlaying(false);
                 return 0
             }
@@ -259,7 +259,7 @@ function HomePage() {
 
         /* Si la palabra no está en la lista de PALABRAS */
         if (!PALABRAS.includes(chosenWord)){
-            showErrorMsg(not_on_list);
+            showErrorMsg(notOnList);
             return false
         }
 
@@ -272,6 +272,11 @@ function HomePage() {
                 setChosenWord('');
             }
             return false
+        }
+
+        /* Si perdió, muestra la palabra en la pantalla. */
+        if (row === 5 && searchedWord !== chosenWord){
+            showErrorMsg(showWord);
         }
 
         const LETTERCOUNT = countingLetters();      // Crea el objeto para contar las apariciones de las letras
@@ -388,7 +393,11 @@ function HomePage() {
                 {/* Mensaje de faltan letras */}
                 <div ref={incomplete_word} className="error_msg incomplete_word">No hay suficientes letras</div>
                 {/* Palabra no encontrada */}
-                <div ref={not_on_list} className="error_msg not_on_list">La palabra no está en la lista</div>
+                <div ref={notOnList} className="error_msg not_on_list">La palabra no está en la lista</div>
+                {/* Muestra la palabra al perder */}
+                {/* Esto no debería mostrarse así, ya que el usuario podría ver la palabra. */}
+                <div ref={showWord} className="error_msg">La palabra era {searchedWord}</div>
+                
             </main>
         </>
     )
