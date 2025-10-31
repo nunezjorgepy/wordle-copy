@@ -52,6 +52,12 @@ function HomePage() {
         }
     }
 
+    const hideInstructions = () => {
+        const INST = instructions.current;
+        INST.classList.add('hide_section')
+        console.log(INST)
+    }
+
     /* Error message function */
     const showErrorMsg = (ref) => {
         ref.current.classList.add('error_animation');
@@ -345,7 +351,7 @@ function HomePage() {
                     {/* Falta la primera parte, pero ahora no tengo ganas. */}
                     <div className="instruction_flex">
                         <h1 className="game_title">LA PALABRA DEL DÍA</h1>
-                        <button className="instructions_close_btn">X</button>
+                        <button onClick={hideInstructions} className="instructions_close_btn">X</button>
                         <div className="instructions_paragraph">
                             Las reglas son simples: adivina la palabra oculta en 6 intentos. Cada intento debe ser una palabra validá y si la palabra no existe el juego te avisará.
                         </div>
@@ -378,7 +384,7 @@ function HomePage() {
 
                         <div className="instructions_play">
                             <div className="instructions_play_text">¡Una nueva palabra cada día!</div>
-                            <button className="instructions_play_btn">¡Jugar!</button>
+                            <button onClick={hideInstructions} className="instructions_play_btn">¡Jugar!</button>
                         </div>
                     </div>
                 </section>
