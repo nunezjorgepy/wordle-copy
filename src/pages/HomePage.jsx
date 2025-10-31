@@ -33,14 +33,8 @@ function HomePage() {
     */
     const getNewWord = async () => {
         /* Busca en la API de la RAE una palabra de 5 caracteres. */
-        /* TODO: para evitar perder tiempo mientras la API busca una palabra, que para colmo puede contener tildes, momentaneamente hago que la palabra sea siempre SECAR. Es importante modificar esto luego. */
-        /* let fecthedWord = await axios.get('https://rae-api.com/api/random');
-        while (fecthedWord.data.data.word.length !== 5) {
-            fecthedWord = await axios.get('https://rae-api.com/api/random');
-        }
-        setSearchedWord(fecthedWord.data.data.word.toUpperCase()); */
         const RANDOM_NUMBER = Math.floor(Math.random() * PALABRAS.length);
-        setSearchedWord(PALABRAS[RANDOM_NUMBER].toUpperCase());
+        setSearchedWord(PALABRAS[RANDOM_NUMBER]);
     }
 
     /* Añade la referencia a la celda correspondiente */
@@ -94,7 +88,7 @@ function HomePage() {
     }
 
     /* Counting Letters */
-    const countingLEtters = () => {
+    const countingLetters = () => {
         /* 
         Cuenta la cantidad de veces que cada letra aparece en la palabra 
         Devuelve un objeto con dicha cantidad.
@@ -125,7 +119,7 @@ function HomePage() {
         }
     }
 
-    const checkRightetter = (LETTERCOUNT) => {
+    const checkRightLetter = (LETTERCOUNT) => {
         /* 
         Verifies if the letter are in the word and available to use
         */
@@ -261,16 +255,13 @@ function HomePage() {
             return false
         }
 
-        /* TODO: como la API de la RAE no funciona muy bien, tengo que cambiar este método. */
-        /* Check if word is in dictionary */
-        /* try {
-            const foundWord = await axios.get(`https://rae-api.com/api/words/${chosenWord}`);
-        } catch (error) {
-            showErrorMsg(not_on_list)
+        /* Si la palabra no está en la lista de PALABRAS */
+        if (!PALABRAS.includes(chosenWord)){
+            showErrorMsg(not_on_list);
             return false
-        } */
+        }
 
-        /* Check if the user won */
+        /* Verifica si la palabra es la correcta */
         if (searchedWord === chosenWord) {
             for (let i = 0; i < 5; i++){
                 cellsRef.current[`${row}${i}`].classList.add('right_place');
@@ -281,11 +272,11 @@ function HomePage() {
             return false
         }
 
-        const LETTERCOUNT = countingLEtters();      // Crea el objeto para contar las apariciones de las letras
+        const LETTERCOUNT = countingLetters();      // Crea el objeto para contar las apariciones de las letras
         
         setChosenWord('');              // If not reset, the game doesn't continue.
         checkRightPlace(LETTERCOUNT);   // Check if it is in the right place
-        checkRightetter(LETTERCOUNT);   // Check if it is in the word. If not, pain it gray
+        checkRightLetter(LETTERCOUNT);   // Check if it is in the word. If not, pain it gray
         setCellAndRow();                // Set new Row and Cell
 
 
