@@ -105,30 +105,7 @@ Pseudocódigo:
     - Seteo la row a 0
 
 
-Si tengo un texto en javascript del estilo:
-
-`
-abacería
-abacial
-abacora
-abacorar
-abacá
-abad
-abada
-abadejo
-abadengo
-abadernar
-abadesa
-abadiado
-abadiato
-abadí
-abadía
-abajadero
-abajamiento
-abajar
-abajera
-abajeño
-abajo
-`
-
-podes crear una función que devuelva todas las palabras de 5 letras?
+# Problema con 'Nueva Palabra'
+Si hago click en el botón Nueva Palabra antes de completar las 5 letras, se reinicia, pero:
+    - La casilla actual (antes del click) queda con la clase 'current_class'
+    - Al llegar a esa última casilla, no permite seguir ingresando letras.

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import PALABRAS from "../../public/listado-de-palabras";
 import './HomePage.css';
 
@@ -64,6 +64,8 @@ function HomePage() {
         /* getNewWord(); */         // TODO: al acceder a una buena API o array de palabras, tengo que hacer esta función
 
         getNewWord();     // Setea una nueva palabra. Más adelante, esto se hará con la función getNewWord
+        setChosenWord('');
+        cellsRef.current[`${row}${cell}`].classList.remove('current_cell');
 
         setPlaying(true);           // Permite jugar
 
