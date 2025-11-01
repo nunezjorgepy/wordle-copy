@@ -15,6 +15,7 @@ function HomePage() {
     /* useRefs */
     const cellsRef = useRef({});
     const keyBoardRef = useRef({});
+    const somethingWrong = useRef(null)
     const incomplete_word = useRef(null);
     const notOnList = useRef(null);
     const showWord = useRef(null);
@@ -57,11 +58,14 @@ function HomePage() {
         INST.classList.add('hide_section');
     }
 
-    /* Error message function */
-    const showErrorMsg = (ref) => {
-        ref.current.classList.add('error_animation');
+    const somethingWentWrong = (mensaje) => {
+        /* Mensaje que se muestra si hay algo incorrecto o si perdió */
+        console.log(somethingWrong.current)
+        const currentError = somethingWrong.current
+        currentError.innerHTML = mensaje;
+        currentError.classList.add('error_animation');
         setTimeout(() => {
-            ref.current.classList.remove('error_animation');
+            currentError.classList.remove('error_animation')
         }, 3000)
     }
 
@@ -259,13 +263,13 @@ function HomePage() {
         /* If the word doesn't have enough letters */
         if (chosenWord.length < 5){
             // If chosen word doesn't have enough letter, show error
-            showErrorMsg(incomplete_word)
+            somethingWentWrong('No hay suficientes letras')
             return false
         }
 
         /* Si la palabra no está en la lista de PALABRAS */
         if (!PALABRAS.includes(chosenWord)){
-            showErrorMsg(notOnList);
+            somethingWentWrong('La palabra no está en la lista')
             return false
         }
 
@@ -282,7 +286,7 @@ function HomePage() {
 
         /* Si perdió, muestra la palabra en la pantalla. */
         if (row === 5 && searchedWord !== chosenWord){
-            showErrorMsg(showWord);
+            somethingWentWrong(`La palabra era ${searchedWord}`);
         }
 
         const LETTERCOUNT = countingLetters();      // Crea el objeto para contar las apariciones de las letras
@@ -322,11 +326,6 @@ function HomePage() {
         /* Si presioné Enter */
         if (e.key === 'Enter') {
             onEnterPress();
-        }
-
-        if (e.key === ' '){
-            /* TODO: esta función es sólo para poder verificar cuál es la palabra a adivinar. TENGO que borrarla. */
-            console.log(searchedWord);
         }
     }
 
@@ -437,10 +436,8 @@ function HomePage() {
                     </div>
                 </section>
 
-                {/* Mensaje de faltan letras */}
-                <div ref={incomplete_word} className="error_msg incomplete_word">No hay suficientes letras</div>
-                {/* Palabra no encontrada */}
-                <div ref={notOnList} className="error_msg not_on_list">La palabra no está en la lista</div>
+                {/* Mensaje de error */}
+                <div ref={somethingWrong} className="error_msg"></div>
                 {/* Muestra la palabra al perder */}
                 {/* Esto no debería mostrarse así, ya que el usuario podría ver la palabra. */}
                 <div ref={showWord} className="error_msg">La palabra era {searchedWord}</div>
