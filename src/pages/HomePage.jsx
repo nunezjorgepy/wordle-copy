@@ -438,9 +438,6 @@ function HomePage() {
 
                 {/* Mensaje de error */}
                 <div ref={somethingWrong} className="error_msg"></div>
-                {/* Muestra la palabra al perder */}
-                {/* Esto no debería mostrarse así, ya que el usuario podría ver la palabra. */}
-                <div ref={showWord} className="error_msg">La palabra era {searchedWord}</div>
                 
             </main>
         </>
