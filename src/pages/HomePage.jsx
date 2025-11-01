@@ -54,8 +54,7 @@ function HomePage() {
 
     const hideInstructions = () => {
         const INST = instructions.current;
-        INST.classList.add('hide_section')
-        console.log(INST)
+        INST.classList.add('hide_section');
     }
 
     /* Error message function */
