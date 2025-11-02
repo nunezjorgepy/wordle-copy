@@ -14,12 +14,10 @@ function HomePage() {
     const [searchedWord, setSearchedWord] = useState('');
     const [playing, setPlaying] = useState(true);
     /* useRefs */
+    const sectionGame = useRef(null);
     const cellsRef = useRef({});
     const keyBoardRef = useRef({});
     const somethingWrong = useRef(null)
-    const incomplete_word = useRef(null);
-    const notOnList = useRef(null);
-    const showWord = useRef(null);
     const newGemaBtn = useRef(null);
     const enterRef = useRef(null);
     const backspaceRef = useRef(null);
@@ -55,13 +53,13 @@ function HomePage() {
     }
 
     const hideInstructions = () => {
-        const INST = instructions.current;
-        INST.classList.add('hide_section');
+        /* Oculta la sección de instrucciones y muestra ladel juego */
+        instructions.current.classList.add('hide_section');
+        sectionGame.current.classList.add('show_section');
     }
 
     const somethingWentWrong = (mensaje) => {
         /* Mensaje que se muestra si hay algo incorrecto o si perdió */
-        console.log(somethingWrong.current)
         const currentError = somethingWrong.current
         currentError.innerHTML = mensaje;
         currentError.classList.add('error_animation');
@@ -390,7 +388,7 @@ function HomePage() {
                 </section>
 
                 {/* Game Section */}
-                <section className="section_game">
+                <section ref={sectionGame} className="section_game">
                     <div className="game_flex">
                         {/* Título */}
                         <h1 className="game_title">LA PALABRA DEL DÍA</h1>

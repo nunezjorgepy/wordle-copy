@@ -84,9 +84,6 @@ Sección Instrucciones
 .instructions_play_btn:hover, .instructions_close_btn:hover{
     background-color: var(--hover-new-btn);
 }
-.hide_section {
-    display: none;
-}
 
 /*
 ====================================== 
@@ -136,8 +133,12 @@ Juego
     flex-direction: column;
     align-items: center;
 }
+.section_game{
+    display: none;
+}
 .game_flex{
     width: 100%;
+    padding-bottom: 50px;
 }
 
 /* Título */
@@ -256,10 +257,10 @@ Juego
         top: -74px;
     }
     25% {
-        top: 5%;
+        top: 15%;
     }
     75% {
-        top: 5%;
+        top: 15%;
     }
     100% {
         top: -15%;
@@ -288,6 +289,12 @@ Juego
 }
 .current_cell{
     border-color: var(--current-cell-color);
+}
+.hide_section {
+    display: none;
+}
+.show_section{
+    display: flex;
 }
 
 
