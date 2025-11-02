@@ -4,6 +4,7 @@ import './HomePage.css';
 
 import WordRowComponent from "../components/WordRowComponent";
 import KeyBoardRowComponent from "../components/KeyBoardRowComponent";
+import OriginalGameLink from "../components/OriginalGameLink";
 
 function HomePage() {
     /* useStates */
@@ -349,6 +350,7 @@ function HomePage() {
                     {/* Falta la primera parte, pero ahora no tengo ganas. */}
                     <div className="instruction_flex">
                         <h1 className="game_title">LA PALABRA DEL DÍA</h1>
+                        <OriginalGameLink />
                         <button onClick={hideInstructions} className="instructions_close_btn">X</button>
                         <div className="instructions_paragraph">
                             Las reglas son simples: adivina la palabra oculta en 6 intentos. Cada intento debe ser una palabra validá y si la palabra no existe el juego te avisará.
@@ -386,10 +388,14 @@ function HomePage() {
                         </div>
                     </div>
                 </section>
+
+                {/* Game Section */}
                 <section className="section_game">
                     <div className="game_flex">
                         {/* Título */}
                         <h1 className="game_title">LA PALABRA DEL DÍA</h1>
+
+                        <OriginalGameLink />
 
                         {/* Botón de Nueva Palabra */}
                         <button className="new_game_btn" ref={newGemaBtn} onClick={() => newGame()}>Nueva Palabra</button>
